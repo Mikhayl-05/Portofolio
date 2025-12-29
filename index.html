@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <style>
+    @font-face {
+      font-family: 'Vanilla';
+      src: url('fonts/vanilla.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mikhayl | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <style>
+    /* Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .zoom-in {
+      opacity: 0;
+    }
+
+    /* Modal transitions */
+    #skill-modal {
+      transition: opacity 0.3s ease;
+    }
+
+    #modal-content {
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Preloader Styles */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #1a202c;
+      /* Dark background, adjust as needed */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+      color: #fff;
+      /* Text color */
+    }
+
+    #preloader .preloader-media {
+      max-width: 200px;
+      /* Ukuran maksimal GIF/Video */
+      max-height: 200px;
+      object-fit: contain;
+      /* Pastikan GIF/Video terlihat penuh */
+      margin-bottom: 20px;
+      border-radius: 15px;
+      /* Sedikit rounded corner */
+    }
+
+    /* Jika menggunakan video, pastikan tidak ada kontrol */
+    #preloader video {
+      display: block;
+      /* Menghilangkan spasi bawah default video */
+    }
+
+    #preloader .loading-text {
+      font-family: 'Vanilla', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      /* Animasi sederhana untuk teks loading */
+      animation: fadeAndScale 1.5s infinite alternate;
+    }
+
+    @keyframes fadeAndScale {
+      0% {
+        opacity: 0.5;
+        transform: scale(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Efek Flicker untuk Cursor Typewriter */
+    @keyframes blink-caret {
+      0%,
+      50% {
+        border-color: #48bb78;
+        /* Warna hijau saat "on" */
+      }
+
+      51%,
+      100% {
+        border-color: transparent;
+        /* Hilang saat "off" */
+      }
+    }
+
+    .typewriter-cursor {
+      border-right: 2px solid #48bb78;
+      /* Cursor hijau tebal */
+      animation: blink-caret 0.75s step-end infinite;
+      /* Kedap-kedip setiap 0.75 detik */
+      padding-right: 0.25rem;
+      /* Ruang untuk cursor (mirip pr-1 di Tailwind) */
+    }
+
+    /* Opsional: Jika ingin flicker lebih dramatis (kedip lebih cepat dan random-ish) */
+    @keyframes flicker-cursor {
+      0%,
+      30%,
+      50%,
+      70%,
+      100% {
+        border-color: #48bb78;
+      }
+
+      20%,
+      40%,
+      60%,
+      80% {
+        border-color: transparent;
+      }
+    }
+
+    /* Efek Flicker untuk Cursor Typewriter - Variasi Intensitas */
+
+    /* 1. INTENSITAS RENDAH (Halus, kedip lambat - seperti cursor standar) */
+    @keyframes low-blink {
+      0%,
+      80% {
+        border-color: #48bb78;
+        /* On: hijau terlihat lama */
+      }
+
+      81%,
+      100% {
+        border-color: transparent;
+        /* Off: hilang sebentar */
+      }
+    }
+
+    .low-flicker {
+      border-right: 2px solid #48bb78;
+      animation: low-blink 1.5s step-end infinite;
+      /* Durasi 1.5s = lambat, intensitas rendah */
+      padding-right: 0.25rem;
+    }
+
+    /* 2. INTENSITAS SEDANG (Seimbang, kedip standar - seperti yang sebelumnya) */
+    @keyframes medium-blink {
+      0%,
+      50% {
+        border-color: #48bb78;
+        /* On: 50% waktu */
+      }
+
+      51%,
+      100% {
+        border-color: transparent;
+        /* Off: 50% waktu */
+      }
+    }
+
+    .medium-flicker {
+      border-right: 2px solid #48bb78;
+      animation: medium-blink 0.75s step-end infinite;
+      /* Durasi 0.75s = sedang */
+      padding-right: 0.25rem;
+    }
+
+    /* 3. INTENSITAS TINGGI (Dramatis, kedip cepat & sering - seperti glitch/terminal) */
+    @keyframes high-flicker {
+      0%,
+      10%,
+      20%,
+      30%,
+      40%,
+      50%,
+      60%,
+      70%,
+      80%,
+      90% {
+        border-color: #48bb78;
+        /* On: banyak step on */
+      }
+
+      11%,
+      21%,
+      31%,
+      41%,
+      51%,
+      61%,
+      71%,
+      81%,
+      91%,
+      100% {
+        border-color: transparent;
+        /* Off: sering berganti */
+      }
+    }
+
+    .high-flicker {
+      border-right: 2px solid #48bb78;
+      animation: high-flicker 0.4s step-end infinite;
+      /* Durasi 0.4s = cepat, intensitas tinggi */
+      padding-right: 0.25rem;
+    }
+
+    /* Opsional: Efek flicker dengan opacity (bukan border hilang, tapi pudar) untuk variasi lebih halus */
+    @keyframes opacity-flicker {
+      0%,
+      50% {
+        opacity: 1;
+        border-color: #48bb78;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+        border-color: transparent;
+      }
+    }
+
+    .opacity-flicker {
+      border-right: 2px solid #48bb78;
+      animation: opacity-flicker 1s ease-in-out infinite;
+      /* Gunakan ease-in-out untuk transisi smooth, bukan step */
+      padding-right: 0.25rem;
+    }
+  </style>
+  <style>
+    /* semua link (card) di section #projects kalau dihover jadi punya shadow putih */
+    #projects a:hover {
+      box-shadow: 0 10px 25px rgb(255, 255, 255);
+    }
+
+    @keyframes jitter {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      20% {
+        transform: translate(-2px, 2px) rotate(-2deg);
+      }
+
+      40% {
+        transform: translate(2px, -2px) rotate(2deg);
+      }
+
+      60% {
+        transform: translate(-2px, -1px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translate(1px, 2px) rotate(1deg);
+      }
+
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+
+    .hover-jitter:hover {
+      animation: jitter 0.3s infinite;
+    }
+
+    /* Animasi Easter Egg */
+    @keyframes popupIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes popupOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+
+    #easter-egg .popup-box {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .spacing-wide {
+      letter-spacing: 1px;
+      /* jarak antar huruf */
+      /* font-family: 'Vanilla';  optional, kalau mau semua pakai font Vanilla */
+    }
+
+
+
+    #music-popup {
+      backdrop-filter: blur(4px);
+      /* efek blur */
+      -webkit-backdrop-filter: blur(4px);
+      /* biar support Safari/HP */
+      background: rgba(0, 0, 0, 0.4);
+      /* tetap kasih gelap tipis */
+    }
+
+    .support-text {
+      font-family: 'Vanilla', sans-serif;
+      /* pakai font Vanilla */
+      font-weight: bold;
+      /* tebal */
+      letter-spacing: 1px;
+      /* jarak huruf */
+      text-transform: uppercase;
+      /* jadi huruf kapital semua */
+    }
+  </style>
+
+  <style>
+  /* ... kode CSS lainnya ... */
+
+  #easter-egg .popup-box {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Tambahkan properti ini untuk menata tengah konten */
+    display: flex;
+    flex-direction: column; /* Agar item tersusun vertikal */
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Untuk teks di tengah */
+  }
+
+  
+  /* ... kode CSS lainnya ... */
+</style>
+
+
+<style>
+.media-wrapper {
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.media-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* CARD PAMERAN */
+.pameran-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pameran-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 12px 28px rgba(255, 255, 255, 0.4),
+    0 0 18px rgba(255, 255, 255, 0.2);
+}
+
+
+/* =========================
+   ANIMASI TRANSISI PAMERAN
+   ========================= */
+
+/* GRID KELUAR */
+.fade-out-up {
+  animation: fadeOutUp 0.3s ease forwards;
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* DETAIL MASUK */
+.fade-in-up {
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ANIMASI SCROLL PAMERAN */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.7s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* SLIDER CARD PAMERAN */
+.slider-btn {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border-radius: 9999px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: background 0.2s ease;
+}
+
+.slider-btn:hover {
+  background: rgba(0,0,0,0.85);
+}
+
+.slide-img {
+  transition: opacity 0.25s ease;
+}
+
+
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes micro-shake {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-1px, 0); }
+  50%  { transform: translate(1px, 0); }
+  75%  { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+.rasa-shake {
+  animation: micro-shake 0.15s ease;
+}
+
+
+
+
+</style>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+
+ 
+
+
+</head>
+
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <!-- Pilih salah satu: GIF atau Video -->
+    <!-- Contoh GIF -->
+    <img src="img/background/loading.gif" alt="Loading Animation" class="preloader-media">
+
+    <!-- Contoh Video (uncomment jika ingin pakai video) -->
+    <!--
+    <video class="preloader-media" autoplay loop muted playsinline>
+      <source src="video/loading.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    -->
+
+    <div class="loading-text">Loading...</div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 flex items-center justify-between px-8 py-4 bg-white dark:bg-gray-800 shadow-md">
+    <div class="flex items-center space-x-3">
+      <img src="img/profil/profil.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+      <span class="font-semibold text-lg">Mikhayl</span>
+    </div>
+    <div class="hidden md:flex space-x-6 text-gray-600 dark:text-gray-300">
+      <a href="#about" class="hover:text-green-500 transition">About</a>
+      <a href="#person" class="hover:text-green-500 transition">Personality</a>
+      <a href="#daily" class="hover:text-green-500 transition">Daily Life</a>
+      <a href="#projects" class="hover:text-green-500 transition">Display</a>
+      <a href="#otherskills" class="hover:text-green-500 transition">Skills</a>
+      <a href="#contact" class="hover:text-green-500 transition">Contact</a>
+    </div>
+    <button id="music-toggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700">▶️</button>
+  </nav>
+
+  <!-- Audio file -->
+  <audio id="bg-music" src="musik/About you 1975.mp3" loop></audio>
+
+
+  <!-- Hero Section -->
+  <section class="text-center py-20 bg-gray-100 dark:bg-gray-800 fade-in-up bg-cover bg-center relative"
+    style="background-image: url('img/background/background.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-40 dark:bg-opacity-60"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900">
+    </div>
+    <div class="relative z-10">
+      <img src="img/profil/profil.jpg" alt="Profile" class="w-32 h-32 mx-auto rounded-full mb-6 shadow-md">
+      <h1 class="text-4xl md:text-5xl font-bold text-white">Mikhayl</h1>
+      <p class="text-gray-200 text-xl mt-2">Portfolio</p>
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="flex justify-center space-x-6 mt-8 relative z-10">
+      <!-- Instagram -->
+      <a href="https://instagram.com/mhmyl_" target="_blank" class="hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-pink-500">
+          <path fill="currentColor"
+            d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z">
+          </path>
+        </svg>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/6285398285037" target="_blank" class="hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 text-green-500">
+          <path fill="currentColor"
+            d="M20.52 3.48A11.946 11.946 0 0012 0C5.373 0 0 5.373 0 12c0 2.109.554 4.082 1.516 5.844L0 24l6.408-1.513A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12 0-3.195-1.25-6.186-3.48-8.52zm-2.27 13.49c-.193.54-1.129 1.027-1.588 1.086-.425.053-.956.074-2.414-.68-3.284-1.454-5.406-5.107-5.556-5.354-.15-.248-1.268-1.842-1.268-3.515 0-1.673.879-2.494 1.19-2.833.31-.339.677-.423.902-.423.226 0 .447.003.642.007.21.005.492-.08.77.588.277.668.944 2.315 1.028 2.488.083.174.138.38.003.614-.135.233-.203.38-.405.59-.202.21-.426.468-.608.63-.202.181-.417.381-.298.646.119.264.527 1.072 1.13 1.736.78.842 1.446 1.126 1.667 1.255.22.129.347.108.475-.065.128-.174.548-.64.693-.857.145-.218.294-.18.507-.107.212.073 1.336.63 1.562.743.226.114.377.17.433.266.057.096.057.554-.136 1.093z">
+          </path>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+
+  <!-- Pop up musik dengan animasi -->
+  <div id="music-popup"
+    class="fixed inset-0 flex items-center justify-center z-[9999] opacity-0 pointer-events-none transition-opacity duration-500 backdrop-blur-md bg-black/40">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-w-sm w-11/12 text-center scale-75 opacity-0 transition-all duration-500 relative"
+      id="music-box">
+
+      <!-- ❌ Tombol Close -->
+      <button id="music-close" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl font-bold">
+        &times;
+      </button>
+
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">🎵 Ingin Memutar Musik?</h2>
+      <p class="text-gray-600 dark:text-gray-300 -mb-1">Untuk pengalaman yang lebih baik</p>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">Klik <span class="font-semibold">OK</span> untuk mulai.</p>
+      <button id="music-ok"
+        class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md hover:shadow-lg transition-all duration-300">OK</button>
+    </div>
+  </div>
+
+
+  <!-- About Me Section 1 -->
+  <section id="about" class="px-8 py-20 max-w-6xl mx-auto zoom-in bg-cover bg-center relative"
+    style="background-image: url('img/background/bg-about.jpg');">
+
+    <!-- overlay -->
+    <div class="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
+    <div
+      class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 dark:from-gray-900 to-transparent"></div>
+
+    <!-- 👇 Stiker Anime Chibi -->
+    <img id="sticker-chibi-1" src="img/background/chibi1.png" alt="Chibi 1"
+      class="absolute top-4 left-4 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="width: 100px; height: 100px; transform: rotate(-10deg);" />
+    <audio id="chibi-voice-1" src="musik/Chibi.mp3"></audio>
+
+    <img id="sticker-chibi-2" src="img/background/chibi2.png" alt="Chibi 2"
+      class="absolute bottom-6 right-6 w-28 h-248 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="transform: rotate(12deg);" />
+    <audio id="chibi-voice-2" src="musik/Chibi.mp3"></audio>
+
+    <div class="relative z-10">
+      <h2 class="text-2xl font-bold -mb-1 text-center text-white ">About Me</h2>
+      <p class="text-gray-200 mb-12 text-center spacing-wide ">(Profil diri)</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="flex justify-center">
+          <img src="img/profil/profil1.jpg" alt="About Me"
+            class="rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-md dark:bg-gray-800/40 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition transform p-6">
+          <h3 id="about-typewriter"
+            class="text-xl font-semibold mb-4 typewriter-cursor text-white inline-block"></h3>
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Hanya seorang pelajar yang masih muda kelahiran Jakarta yang senang mengeksplorasi teknologi atau hal-hal
+            baru, seperti mempelajari komputer, linux,
+            design grafis, fotografi/videografi, dan lain sebagainya..
+          </p>
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Fokus gue yaitu berusaha ngembangin skill-skill yang gue minati. Oh iya, Mikhayl itu nama samaran.. Hehe
+            :)
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- About Me Section 2 -->
+  <section id="person" class="px-8 py-20 max-w-6xl mx-auto fade-in-right bg-cover bg-center relative"
+    style="background-image: url('img/background/bg-about.jpg');">
+
+    <!-- overlay -->
+    <div class="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
+
+    <!-- 👇 Stiker Anime Chibi -->
+    <img id="sticker-chibi-3" src="img/background/chibi4.png" alt="Chibi 1"
+      class="absolute top-4 left-4 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="width: 100px; height: 100px; transform: rotate(-10deg);" />
+    <audio id="chibi-voice-3" src="musik/Chibi.mp3"></audio>
+
+    <img id="sticker-chibi-4" src="img/background/chibi3.png" alt="Chibi 4"
+      class="absolute bottom-6 right-6 w-24 h-248 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="transform: rotate(12deg);" />
+    <audio id="chibi-voice-4" src="musik/Chibi.mp3"></audio>
+
+    <div class="relative z-10">
+      <h2 class="text-2xl font-bold -mb-1 text-center text-white">Personality</h2>
+      <p class="text-gray-200 mb-12 text-center spacing-wide ">(Pribadi/sifat)</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+        <!-- Foto -->
+        <div class="flex justify-center order-1 md:order-2">
+          <img src="img/profil/profil2.jpg" alt="About Me"
+            class="rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+        </div>
+
+        <!-- Panel teks di Section 2 -->
+        <div
+          class="bg-white/10 backdrop-blur-md dark:bg-gray-800/40 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition transform p-6 order-2 md:order-1">
+          <h3 id="personality-typewriter"
+            class="text-xl font-semibold mb-4 typewriter-cursor text-white inline-block"></h3>
+          <!-- Tambah class typewriter-cursor -->
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Gue demen banget ngulik teknologi, desain sama editing.
+          </p>
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Di luar desain dan editing, hobi gue biasa aja—kadang mainin komputer, buka instagram, atau sekedar
+            ngulik hal random kayak belajar linux, hacking, dll
+            yang bikin penasaran. Bosen parah! <em>temen aja cuma dikit</em>
+          </p>
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Yahh.. walaupun sering natap layar, gue tetap waras yah.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- About Me Section 3 -->
+  <section id="daily" class="px-8 py-20 max-w-6xl mx-auto fade-in-left bg-cover bg-center relative"
+    style="background-image: url('img/background/bg-about.jpg');">
+
+    <!-- overlay -->
+    <div class="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
+    <div
+      class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 dark:from-gray-900 to-transparent"></div>
+
+    <!-- 👇 Stiker Anime Chibi -->
+    <img id="sticker-chibi-5" src="img/background/chibi5.png" alt="Chibi 1"
+      class="absolute top-4 left-4 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="width: 100px; height: 100px; transform: rotate(-10deg);" />
+    <audio id="chibi-voice-5" src="musik/Chibi.mp3"></audio>
+
+    <img id="sticker-chibi-6" src="img/background/chibi2.png" alt="Chibi 2"
+      class="absolute bottom-6 right-6 w-28 h-248 z-20 drop-shadow-lg hover-jitter cursor-pointer"
+      style="transform: rotate(12deg);" />
+    <audio id="chibi-voice-6" src="musik/Chibi.mp3"></audio>
+
+    <div class="relative z-10">
+      <h2 class="text-2xl font-bold -mb-1 text-center text-white">Daily Life</h2>
+      <p class="text-gray-200 mb-12 text-center spacing-wide ">(Keseharian)</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="flex justify-center">
+          <img src="img/profil/profil3.png" alt="About Me"
+            class="rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-md dark:bg-gray-800/40 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition transform p-6">
+          <h3 id="daily-typewriter"
+            class="text-xl font-semibold mb-4 medium-flicker text-white inline-block"></h3>
+          <!-- Tambah ID dan class flicker -->
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Mungkin banyak yang ngira gue wibu.. tapi seriusan, gue cuma sekedar <em>Interest</em> aja sama gayanya
+            dan bahkan jarang nonton anime
+          </p>
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Keseharian gw biasa aja soalnya kebanyakan di Pesantren nih, kalau di rumah sih ngebosenin banget. Gak bisa keluar rumah dan hangout bebas <em>ya karena gak ada temen</em>
+          </p>
+
+          <p class="text-gray-200 leading-relaxed mb-4">
+            Intinya hidup di gua kayak kanvas, tinggal coret aja-asal jangan keluar dari batasan kanvas
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Projects Section -->
+  <section
+  id="projects"
+  class="px-8 py-16 max-w-6xl mx-auto reveal bg-cover bg-center relative"
+  style="background-image: url('img/background/bg-projects.jpg');"
+>
+
+    <div class="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
+    <div class="relative z-10">
+      <h2 class="text-2xl font-bold -mb-1 text-center text-white">Pameran</h2>
+      <p class="text-gray-200 mb-8 text-center">(Hal-hal yang pengen gw Share & Ceritain)</p>
+      <div
+  id="pameran-grid"
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+
+
+        <!-- Project Cards
+        <a href="https://www.instagram.com/mhmyl_/p/DBVJGZxS4yX/" target="_blank"
+          class="block bg-white/10 dark:bg-gray-800/30
+          backdrop-blur-md border border-white/20 dark:border-white/10
+          rounded-xl shadow-md hover:shadow-2xl
+          hover:-translate-y-1 transition transform overflow-hidden">
+          <img src="img/project1.jpg" alt="Project 1" class="h-56 w-full object-cover">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg text-white">Fotografi - <em>Vibes</em></h3>
+            <p class="text-gray-200 text-sm mt-2">Golden Hour – Menangkap keindahan senja di tengah hiruk-pikuk
+              jalanan kota.</p>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/p/DOVDnq6Etxv/?utm_source=ig_web_copy_link" target="_blank"
+          class="block bg-white/10 dark:bg-gray-800/30
+          backdrop-blur-md border border-white/20 dark:border-white/10
+          rounded-xl shadow-md hover:shadow-2xl
+          hover:-translate-y-1 transition transform overflow-hidden">
+          <img src="img/project2.png" alt="Project 2" class="h-56 w-full object-cover">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg text-white">Desain Grafis</h3>
+            <p class="text-gray-200 text-sm mt-2">Seni Digital Scrapbook – Eksplorasi kolase yang ceria dan
+              ekspresif.</p>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/mhmyl_/reel/DLXXJLXy8EJ/" target="_blank"
+          class="block bg-white/10 dark:bg-gray-800/30
+          backdrop-blur-md border border-white/20 dark:border-white/10
+          rounded-xl shadow-md hover:shadow-2xl
+          hover:-translate-y-1 transition transform overflow-hidden">
+          <img src="img/project3.jpg" alt="Project 3" class="h-56 w-full object-cover">
+          <div class="p-4">
+            <h3 class="font-semibold text-lg text-white">Videografi - <em>Color Grading</em></h3>
+            <p class="text-gray-200 text-sm mt-2">Color Grading – Menjelajahi tone sinematis dengan Alight Motion.
+            </p>
+          </div>
+        </a> -->
+      
+
+      </div>
+    </div>
+  </section> 
+
+  <section id="pameran-page" class="hidden max-w-6xl mx-auto px-6 py-10">
+
+
+
+    
+  <!-- HEADER -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 id="pameran-title"
+        class="text-green-400 text-3xl font-bold">
+    </h1>
+
+    <button onclick="backToHome()"
+      class="text-green-400 hover:underline">
+      Kembali ke Beranda
+    </button>
+  </div>
+
+  <!-- MEDIA -->
+  <div class="media-wrapper mb-6 rounded-xl">
+    <!-- injected by JS -->
+  </div>
+
+  <!-- META -->
+  <div id="pameran-meta"
+       class="text-sm text-gray-400 mb-6">
+  </div>
+
+  <!-- CONTENT -->
+  <article id="pameran-content"
+    class="leading-relaxed text-gray-200 space-y-4">
+  </article>
+
+</section>
+
+
+  <!-- Other Skills Section -->
+  <section id="otherskills" class="px-8 py-16 bg-gray-100 dark:bg-gray-800 zoom-in relative">
+    <h2 class="text-2xl font-bold -mb-1 text-center">Main Expertise</h2>
+    <p class="text-gray-200 mb-8 text-center">(Skill utama)</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
+      <div class="flex flex-col items-center cursor-pointer hover:scale-110 transition-transform skill"
+        data-desc="Menguesai fotografi & videografi, pencahayaan, komposisi, dan pengambilan gambar dan video yang cukup profesional.">
+        <img src="https://img.icons8.com/color/96/camera.png" class="w-12 h-12 mb-2"
+          alt="Kamera / Fotografi"><span class="text-sm">Videografi / Fotografi</span>
+      </div>
+      <div class="flex flex-col items-center cursor-pointer hover:scale-110 transition-transform skill"
+        data-desc="Kemampuan editing desain, video & foto menggunakan software seperti alight motion.">
+        <img src="https://img.icons8.com/color/96/video.png" class="w-12 h-12 mb-2" alt="Editing"><span
+          class="text-sm">Editing</span>
+      </div>
+      <div class="flex flex-col items-center cursor-pointer hover:scale-110 transition-transform skill"
+        data-desc="Desain grafis kreatif, ilustrasi, branding, dan pembuatan konten visual menarik.">
+        <img src="https://img.icons8.com/color/96/paint-palette.png" class="w-12 h-12 mb-2"
+          alt="Graphic Design"><span class="text-sm">Graphic Design</span>
+      </div>
+      <div class="flex flex-col items-center cursor-pointer hover:scale-110 transition-transform skill"
+        data-desc="Kemampuan menggunakan komputer, software, internet, dan dasar teknologi seperti Linux untuk kebutuhan kerja & produktivitas.">
+        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006363.png" class="w-12 h-12 mb-2" alt="Videografi"><span
+          class="text-sm">Computer</span>
+      </div>
+    </div>
+
+    <!-- Pop-up Modal -->
+    <div id="skill-modal"
+      class="fixed inset-0 bg-black bg-opacity-0 backdrop-blur-sm flex items-center justify-center hidden z-50">
+      <div id="modal-content"
+        class="bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-xl p-6 max-w-md w-11/12 relative shadow-2xl transform opacity-0 scale-50">
+        <button id="close-modal"
+          class="absolute top-2 right-2 text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-xl">&times;</button>
+        <h3 id="modal-title" class="text-lg font-semibold mb-4"></h3>
+        <p id="modal-desc" class="text-sm"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="px-8 py-16 max-w-3xl mx-auto text-center fade-in-up">
+    <h2 class="text-2xl font-bold mb-6">Support Me!</h2>
+    <p class="text-gray-600 dark:text-gray-300 mb-8">Suka sama karya atau project gue? Lo bisa dukung gue lewat
+      <em>trakteer</em> biar tetap semangat bikin hal-hal baru! ☕✨</p>
+    <a id="message-btn" href="https://trakteer.id/mikhayll"
+      class="px-6 py-3 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition relative z-10">
+      <span class="support-text">Support</span>
+    </a>
+
+  </section>
+
+  <!-- Canvas Partikel -->
+  <canvas id="fireworks-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-40"></canvas>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-gray-800 py-12 mt-20 border-t dark:border-gray-700">
+    <p class="text-center text-gray-400 text-sm mt-8">&copy; 2025 Mikhayl. All rights reserved.</p>
+  </footer>
+
+  <!-- Easter Egg Popup -->
+  <div id="easter-egg" class="fixed inset-0 hidden flex items-center justify-center z-[9999]">
+    <!-- Background blur -->
+    <div id="blur-bg" class="absolute inset-0 backdrop-blur-md bg-black/40"></div>
+
+    <!-- Popup box -->
+    <div
+      class="popup-box relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-2xl max-w-md w-11/12 text-center z-10">
+      <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">🎉 Easter-Egg Found!</h2>
+      <p id="easter-text" class="text-gray-600 dark:text-gray-300 mb-4">
+        Selamat, kamu berhasil menemukan kode rahasia!
+      </p>
+      <img id="easter-img" class="hidden mx-auto rounded-lg shadow-md max-h-56 mb-4" src="" alt="Easter Egg" />
+      <button id="close-easter"
+        class="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+        Tutup
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Scripts Java!! -->
+
+
+  
+  <script>
+    // Tombol navbar untuk play/pause music
+    const musicBtn = document.getElementById("music-toggle");
+    const audio = document.getElementById("bg-music");
+    let isPlaying = false;
+
+    // --- Fungsi untuk menghentikan semua audio yang sedang diputar ---
+    function stopAllAudio() {
+      const allAudioElements = document.querySelectorAll('audio');
+      allAudioElements.forEach(aud => {
+        if (aud !== audio && !aud.paused) { // Jangan hentikan bg-music jika itu yang sedang diputar
+          aud.pause();
+          aud.currentTime = 0;
+        }
+      });
+      // Juga hentikan audio dari Easter Egg jika sedang diputar
+      if (window.currentEasterEggAudio && !window.currentEasterEggAudio.paused) {
+        window.currentEasterEggAudio.pause();
+        window.currentEasterEggAudio.currentTime = 0;
+      }
+      // Hentikan dan hapus video easter egg jika sedang diputar
+      if (window.currentEasterEggVideo) {
+        window.currentEasterEggVideo.pause();
+        window.currentEasterEggVideo.currentTime = 0;
+        window.currentEasterEggVideo.remove();
+        delete window.currentEasterEggVideo; // Hapus referensi
+      }
+    }
+
+    musicBtn.addEventListener("click", () => {
+      if (!isPlaying) {
+        stopAllAudio(); // Hentikan audio lain sebelum memutar musik latar
+        audio.play();
+        musicBtn.textContent = "⏸️"; // icon pause
+        isPlaying = true;
+      } else {
+        audio.pause();
+        musicBtn.textContent = "▶️"; // icon play
+        isPlaying = false;
+      }
+    });
+
+
+    // Animate on scroll
+    const elements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .zoom-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains("fade-in-up")) entry.target.style.animation = "fadeInUp 0.8s ease forwards";
+          if (entry.target.classList.contains("fade-in-left")) entry.target.style.animation = "fadeInLeft 0.8s ease forwards";
+          if (entry.target.classList.contains("fade-in-right")) entry.target.style.animation = "fadeInRight 0.8s ease forwards";
+          if (entry.target.classList.contains("zoom-in")) entry.target.style.animation = "zoomIn 0.8s ease forwards";
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+    elements.forEach(el => observer.observe(el));
+
+    // Typewriter
+    const aboutText = "Hi, I'm Mikhayl 👋";
+    const stopAt = "Hi".length; // berhenti di "Hi" (tanpa koma)
+
+    let j = 0,
+      isDeletingAbout = false,
+      speedAbout = 100,
+      delayAbout = 500;
+    const aboutTarget = document.getElementById("about-typewriter");
+
+    function aboutTypeEffect() {
+      if (!isDeletingAbout && j <= aboutText.length) {
+        // ngetik maju
+        aboutTarget.textContent = aboutText.substring(0, j);
+        j++;
+        setTimeout(aboutTypeEffect, speedAbout);
+
+      } else if (isDeletingAbout && j > stopAt) {
+        // hapus mundur tapi stop kalau udah "Hi"
+        aboutTarget.textContent = aboutText.substring(0, j);
+        j--;
+        setTimeout(aboutTypeEffect, speedAbout / 2);
+
+      } else {
+        // ganti mode
+        isDeletingAbout = !isDeletingAbout;
+        setTimeout(aboutTypeEffect, delayAbout);
+      }
+    }
+    aboutTypeEffect();
+
+    // Typewriter untuk Personality Section (Section 2)
+    const personalityText = "Kebiasannya apanih!? 🎭"; // Ganti teks ini sesuai keinginan (misal: "I'm Unique! ✨")
+    const personalityStopAt = "Banyak".length; // Berhenti di "Creative" saat hapus mundur (mirip "Hi" di Section 1)
+
+    let k = 0, // Variabel terpisah agar tidak bentrok dengan Section 1
+      isDeletingPersonality = false,
+      speedPersonality = 100,
+      delayPersonality = 500;
+    const personalityTarget = document.getElementById("personality-typewriter");
+
+    function personalityTypeEffect() {
+      if (!isDeletingPersonality && k <= personalityText.length) {
+        // Ngetik maju
+        personalityTarget.textContent = personalityText.substring(0, k);
+        k++;
+        setTimeout(personalityTypeEffect, speedPersonality);
+
+      } else if (isDeletingPersonality && k > personalityStopAt) {
+        // Hapus mundur tapi stop kalau udah "Creative"
+        personalityTarget.textContent = personalityText.substring(0, k);
+        k--;
+        setTimeout(personalityTypeEffect, speedPersonality / 2);
+
+      } else {
+        // Ganti mode (ngetik/hapus)
+        isDeletingPersonality = !isDeletingPersonality;
+        setTimeout(personalityTypeEffect, delayPersonality);
+      }
+    }
+
+    // Typewriter untuk Daily Life Section (Section 3)
+    const dailyText = "Sangat membosankan🎈"; // Ganti teks ini sesuai keinginan (misal: "Casual Life! 🌟")
+    const dailyStopAt = "Sangat".length; // Berhenti di "Daily" saat hapus mundur (mirip "Hi" di Section 1)
+
+    let m = 0, // Variabel terpisah agar tidak bentrok dengan Section 1 (j) dan 2 (k)
+      isDeletingDaily = false,
+      speedDaily = 100, // Kecepatan ngetik (ms per karakter)
+      delayDaily = 500; // Pause antar siklus (ms)
+    const dailyTarget = document.getElementById("daily-typewriter");
+
+    function dailyTypeEffect() {
+      if (!isDeletingDaily && m <= dailyText.length) {
+        // Ngetik maju
+        dailyTarget.textContent = dailyText.substring(0, m);
+        m++;
+        setTimeout(dailyTypeEffect, speedDaily);
+
+      } else if (isDeletingDaily && m > dailyStopAt) {
+        // Hapus mundur tapi stop kalau udah "Daily"
+        dailyTarget.textContent = dailyText.substring(0, m);
+        m--;
+        setTimeout(dailyTypeEffect, speedDaily / 2); // Hapus lebih cepat
+
+      } else {
+        // Ganti mode (ngetik/hapus) dan pause
+        isDeletingDaily = !isDeletingDaily;
+        setTimeout(dailyTypeEffect, delayDaily);
+      }
+    }
+
+    // Mulai efek typewriter untuk Daily Life setelah halaman dimuat (sinkron dengan section lain)
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        dailyTypeEffect(); // Delay sedikit agar sinkron dengan preloader dan section lain
+      }, 1500); // Delay 1.5 detik setelah load (bisa disesuaikan; lebih lama dari Section 2 agar staggered)
+    });
+
+    // Mulai efek typewriter untuk Personality setelah halaman dimuat
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        personalityTypeEffect(); // Delay sedikit agar sinkron dengan preloader
+      }, 1000); // Sesuaikan delay jika perlu (1 detik setelah load)
+    });
+
+    // Skill modal
+    const modal = document.getElementById('skill-modal');
+    const modalContent = document.getElementById('modal-content');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const closeModal = document.getElementById('close-modal');
+    const skills = document.querySelectorAll('.skill');
+
+    skills.forEach(skill => {
+      skill.addEventListener('click', () => {
+        modalTitle.textContent = skill.querySelector('span').textContent;
+        modalDesc.textContent = skill.getAttribute('data-desc');
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.style.opacity = 1;
+          modalContent.style.opacity = 1;
+          modalContent.style.transform = "scale(1)";
+        }, 10);
+      });
+    });
+
+    function closeSkillModal() {
+      modal.style.opacity = 0;
+      modalContent.style.opacity = 0;
+      modalContent.style.transform = "scale(0.5)";
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+    closeModal.addEventListener('click', closeSkillModal);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) closeSkillModal();
+    });
+
+
+    const canvas = document.getElementById("fireworks-canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Array untuk menyimpan partikel bintang jatuh dan kembang api
+    let particles = [];
+    let fireworks = [];
+    let isAnimatingFireworks = false; // Flag untuk mengontrol animasi kembang api
+
+    // Fungsi untuk membuat partikel bintang jatuh
+    function spawnFallingParticles() {
+      if (particles.length < 5) { // Batasi jumlah bintang jatuh agar tidak terlalu ramai
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: -10,
+          radius: Math.random() * 2 + 1,
+          speed: Math.random() * 2 + 1,
+          color: "white",
+          alpha: Math.random() * 0.5 + 0.5,
+          type: 'falling'
+        });
+      }
+    }
+
+    // Fungsi untuk membuat kembang api
+    function createFirework(x, y) {
+      const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      for (let i = 0; i < 50; i++) { // Jumlah partikel per kembang api
+        fireworks.push({
+          x: x,
+          y: y,
+          radius: Math.random() * 2 + 1,
+          color: color,
+          velocity: {
+            x: (Math.random() - 0.5) * 10,
+            y: (Math.random() - 0.5) * 10
+          },
+          alpha: 1,
+          decay: Math.random() * 0.03 + 0.01,
+          type: 'firework'
+        });
+      }
+    }
+
+    // Fungsi untuk menganimasikan semua partikel (bintang jatuh dan kembang api)
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Animasi bintang jatuh
+      if (!isAnimatingFireworks) { // Hanya spawn bintang jatuh jika tidak ada kembang api aktif
+        spawnFallingParticles();
+      }
+
+      particles.forEach((p, i) => {
+        p.y += p.speed;
+        p.alpha -= 0.001;
+        if (p.y > canvas.height || p.alpha <= 0) {
+          particles.splice(i, 1);
+        } else {
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        }
+      });
+
+      // Animasi kembang api
+      fireworks.forEach((f, i) => {
+        f.x += f.velocity.x;
+        f.y += f.velocity.y;
+        f.alpha -= f.decay;
+        if (f.alpha <= 0) {
+          fireworks.splice(i, 1);
+        } else {
+          ctx.globalAlpha = f.alpha;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+          ctx.fillStyle = f.color;
+          ctx.fill();
+        }
+      });
+
+      // Reset flag isAnimatingFireworks jika semua kembang api sudah selesai
+      if (fireworks.length === 0 && isAnimatingFireworks) {
+        isAnimatingFireworks = false;
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles(); // Mulai animasi
+
+    // Event listener untuk tombol "Support"
+    const supportButton = document.getElementById("message-btn");
+    supportButton.addEventListener("click", (e) => {
+      // Mencegah default action link agar kembang api bisa terlihat sebelum navigasi
+      e.preventDefault();
+
+      // Dapatkan posisi tombol untuk menembakkan kembang api dari sana
+      const rect = supportButton.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Aktifkan flag animasi kembang api
+      isAnimatingFireworks = true;
+
+      // Buat beberapa kembang api di sekitar tombol
+      for (let i = 0; i < 3; i++) { // Menembakkan 3 kembang api
+        setTimeout(() => {
+          createFirework(centerX + (Math.random() - 0.5) * 50, centerY + (Math.random() - 0.5) * 50);
+        }, i * 200); // Jeda antar kembang api
+      }
+
+      // Setelah animasi kembang api selesai (sekitar 1.5 detik), baru navigasi
+      setTimeout(() => {
+        window.open(supportButton.href, '_blank');
+      }, 1500); // Sesuaikan durasi ini dengan durasi animasi kembang api
+    });
+
+    
+
+
+// --- Easter Egg Setup ---
+let buffer = "";
+const easterEgg = document.getElementById("easter-egg");
+const closeEaster = document.getElementById("close-easter");
+const easterText = document.getElementById("easter-text");
+const easterImg = document.getElementById("easter-img");
+
+const commands = {
+  credit: {
+    text: "Thanks & Credit :\nBacksong from - About You (The 1975)\n*Music used for personal, non-commercial purposes only."
+  },
+
+  crush: {
+    text: "Crush gwehj..🤧🙃",
+    img: "img/easter/crush.jpg",
+    action: () => {
+      stopAllAudio();
+      const audio = new Audio("musik/crush.mp3");
+      audio.play();
+      window.currentEasterEggAudio = audio;
+    }
+  },
+
+  oshi: {
+    text: "Oshi gwehj..🤧🙃",
+    video: "img/easter/oshi.mp4",
+    action: () => {
+      stopAllAudio();
+
+      const video = document.createElement("video");
+      video.src = "img/easter/oshi.mp4";
+      video.controls = true;
+      video.autoplay = true;
+      video.style.maxWidth = "100%";
+      video.style.borderRadius = "12px";
+
+      const popupBox = easterEgg.querySelector(".popup-box");
+      const oldVideo = popupBox.querySelector("video");
+      if (oldVideo) oldVideo.remove();
+
+      easterImg.classList.add("hidden");
+      popupBox.insertBefore(video, closeEaster);
+
+      window.currentEasterEggVideo = video;
+    }
+  }
+};
+
+document.addEventListener("keydown", (e) => {
+  buffer += e.key.toLowerCase();
+  if (buffer.length > 10) buffer = buffer.slice(-10);
+
+  for (let cmd in commands) {
+    if (buffer.includes(cmd)) {
+      showEasterEgg(commands[cmd]);
+      buffer = "";
+      break;
+    }
+  }
+});
+
+function showEasterEgg(command) {
+  easterText.textContent = command.text;
+  easterImg.classList.add("hidden");
+
+  if (command.img) {
+    easterImg.src = command.img;
+    easterImg.classList.remove("hidden");
+  }
+
+  if (command.action) command.action();
+
+  easterEgg.classList.remove("hidden");
+}
+
+closeEaster.addEventListener("click", () => {
+  easterEgg.classList.add("hidden");
+  stopAllAudio();
+});
+
+
+    // Tampilkan popup sesuai command
+    function showEasterEgg(command) {
+      easterText.textContent = command.text;
+
+      // Hapus video atau gambar sebelumnya
+      if (easterImg.parentNode.querySelector('video')) {
+        easterImg.parentNode.querySelector('video').remove();
+      }
+      easterImg.classList.add("hidden"); // Sembunyikan gambar secara default
+
+      if (command.img) {
+        easterImg.src = command.img;
+        easterImg.classList.remove("hidden");
+      } else if (command.video) {
+        // Video akan ditambahkan oleh command.action, jadi tidak perlu di sini
+        // Pastikan easterImg tetap tersembunyi jika ada video
+        easterImg.classList.add("hidden");
+      }
+
+      if (command.action) command.action();
+
+      easterEgg.classList.remove("hidden");
+      const popup = easterEgg.querySelector(".popup-box");
+      popup.style.animation = "popupIn 0.3s ease forwards";
+    }
+
+    // Tombol close
+    closeEaster.addEventListener("click", () => {
+      const popup = easterEgg.querySelector(".popup-box");
+      popup.style.animation = "popupOut 0.3s ease forwards";
+      setTimeout(() => easterEgg.classList.add("hidden"), 300);
+      // Hentikan audio easter egg jika sedang diputar saat popup ditutup
+      if (window.currentEasterEggAudio && !window.currentEasterEggAudio.paused) {
+        window.currentEasterEggAudio.pause();
+        window.currentEasterEggAudio.currentTime = 0;
+      }
+      // Hentikan dan hapus video easter egg jika sedang diputar saat popup ditutup
+      if (window.currentEasterEggVideo) {
+        window.currentEasterEggVideo.pause();
+        window.currentEasterEggVideo.currentTime = 0;
+        window.currentEasterEggVideo.remove();
+        delete window.currentEasterEggVideo; // Hapus referensi
+      }
+    });
+
+    // Klik luar popup
+    easterEgg.addEventListener("click", (e) => {
+      if (e.target.id === "blur-bg") {
+        const popup = easterEgg.querySelector(".popup-box");
+        popup.style.animation = "popupOut 0.3s ease forwards";
+        setTimeout(() => easterEgg.classList.add("hidden"), 300);
+        // Hentikan audio easter egg jika sedang diputar saat popup ditutup
+        if (window.currentEasterEggAudio && !window.currentEasterEggAudio.paused) {
+          window.currentEasterEggAudio.pause();
+          window.currentEasterEggAudio.currentTime = 0;
+        }
+        // Hentikan dan hapus video easter egg jika sedang diputar saat popup ditutup
+        if (window.currentEasterEggVideo) {
+          window.currentEasterEggVideo.pause();
+          window.currentEasterEggVideo.currentTime = 0;
+          window.currentEasterEggVideo.remove();
+          delete window.currentEasterEggVideo; // Hapus referensi
+        }
+      }
+    });
+
+
+    function setupChibi(stickerId, voiceId) {
+      const sticker = document.getElementById(stickerId);
+      const voice = document.getElementById(voiceId);
+
+      function startVoice() {
+        stopAllAudio(); // Hentikan audio lain sebelum memutar suara chibi
+        voice.currentTime = 0;
+        voice.play();
+      }
+
+      function stopVoice() {
+        voice.pause();
+        voice.currentTime = 0;
+      }
+
+      // Desktop
+      sticker.addEventListener("mousedown", startVoice);
+      sticker.addEventListener("mouseup", stopVoice);
+      sticker.addEventListener("mouseleave", stopVoice);
+
+      // Mobile
+      sticker.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        startVoice();
+      });
+      sticker.addEventListener("touchend", stopVoice);
+    }
+
+    // Aktifkan untuk tiap chibi
+    setupChibi("sticker-chibi-1", "chibi-voice-1");
+    setupChibi("sticker-chibi-2", "chibi-voice-2");
+    setupChibi("sticker-chibi-3", "chibi-voice-3");
+    setupChibi("sticker-chibi-4", "chibi-voice-4");
+    setupChibi("sticker-chibi-5", "chibi-voice-5");
+    setupChibi("sticker-chibi-6", "chibi-voice-6");
+
+
+    // Popup musik
+    const musicPopup = document.getElementById("music-popup");
+    const musicBox = document.getElementById("music-box");
+    const musicOk = document.getElementById("music-ok");
+    const musicClose = document.getElementById("music-close");
+
+    // Fungsi untuk menampilkan pop-up musik
+    function showMusicPopup() {
+      musicPopup.classList.remove("pointer-events-none");
+      musicPopup.style.opacity = "1";
+      musicBox.style.opacity = "1";
+      musicBox.style.transform = "scale(1)";
+    }
+
+    // Klik OK → play musik + tutup popup
+    musicOk.addEventListener("click", () => {
+      stopAllAudio(); // Hentikan audio lain sebelum memutar musik latar
+      audio.play();
+      musicBtn.textContent = "⏸️";
+      isPlaying = true;
+
+      musicPopup.style.opacity = "0";
+      musicBox.style.opacity = "0";
+      musicBox.style.transform = "scale(0.8)";
+      setTimeout(() => {
+        musicPopup.classList.add("pointer-events-none");
+      }, 500);
+    });
+
+    // Klik ❌ → tutup popup tanpa play musik
+    musicClose.addEventListener("click", () => {
+      musicPopup.style.opacity = "0";
+      musicBox.style.opacity = "0";
+      musicBox.style.transform = "scale(0.8)";
+      setTimeout(() => {
+        musicPopup.classList.add("pointer-events-none");
+      }, 500);
+    });
+
+
+    // --- Custom Preloader Logic ---
+    const MIN_LOADING_TIME = 2700; // Durasi minimal loading screen dalam milidetik (2 detik)
+    let pageLoadedTime = 0;
+    let preloaderHidden = false;
+
+    // Fungsi untuk menyembunyikan preloader
+    function hidePreloader() {
+      const preloader = document.getElementById('preloader');
+      if (preloader && !preloaderHidden) {
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+          preloaderHidden = true;
+          // Panggil fungsi untuk menampilkan pop-up musik setelah preloader hilang
+          showMusicPopup();
+        }, 500); // Durasi transisi opacity preloader
+      } else if (!preloaderHidden) {
+        // Fallback jika preloader tidak ditemukan, tetap tampilkan pop-up musik
+        preloaderHidden = true;
+        showMusicPopup();
+      }
+    }
+
+    // Event listener saat seluruh halaman selesai dimuat
+    window.addEventListener('load', () => {
+      pageLoadedTime = Date.now(); // Catat waktu halaman selesai dimuat
+      const timeElapsed = pageLoadedTime - performance.timing.navigationStart; // Waktu yang sudah berlalu sejak navigasi
+
+      if (timeElapsed < MIN_LOADING_TIME) {
+        // Jika halaman dimuat lebih cepat dari waktu minimal, tunggu sisanya
+        setTimeout(hidePreloader, MIN_LOADING_TIME - timeElapsed);
+      } else {
+        // Jika halaman dimuat lebih lama dari waktu minimal, langsung sembunyikan
+        hidePreloader();
+      }
+    });
+
+    // Untuk video preloader, pastikan video diputar dan sembunyikan setelah selesai
+    const preloaderVideo = document.querySelector('#preloader video');
+    if (preloaderVideo) {
+      preloaderVideo.addEventListener('ended', () => {
+        // Jika video selesai, dan halaman sudah dimuat (atau sudah melewati waktu minimal), sembunyikan preloader
+        if (pageLoadedTime > 0 || (Date.now() - performance.timing.navigationStart) >= MIN_LOADING_TIME) {
+          hidePreloader();
+        }
+      });
+      // Pastikan video mulai diputar
+      preloaderVideo.play().catch(error => {
+        console.warn("Autoplay video preloader diblokir:", error);
+        // Fallback jika autoplay diblokir, sembunyikan preloader setelah waktu minimal
+        setTimeout(hidePreloader, MIN_LOADING_TIME);
+      });
+    }
+    // Temukan semua tautan navigasi
+    const navLinks = document.querySelectorAll('nav a[href^="#"]'); // Memilih semua <a> di dalam <nav> yang href-nya dimulai dengan "#"
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault(); // Mencegah perilaku default anchor link (langsung lompat ke atas)
+
+        const targetId = this.getAttribute('href'); // Dapatkan ID target (misal: "#about")
+        const targetElement = document.querySelector(targetId); // Temukan elemen target
+
+        if (targetElement) {
+          // Hitung posisi scroll yang diinginkan
+          const elementRect = targetElement.getBoundingClientRect();
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+          // Posisi scroll yang akan menempatkan elemen di tengah layar
+          // Ini adalah posisi scroll vertikal dari dokumen + posisi elemen relatif terhadap viewport
+          // dikurangi setengah tinggi viewport + setengah tinggi elemen
+          const scrollPosition = window.pageYOffset + elementRect.top - (viewportHeight / 2) + (elementRect.height / 2);
+
+          // Gunakan window.scrollTo dengan smooth behavior
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+
+
+    if (console && console.log) {
+      // Paragraf 1: Judul dengan emoji dan styling hijau
+      console.log('%c🕵️‍♂️ Secret Message Unlocked!', 'color: green; font-size: 18px; font-weight: bold; font-family: monospace;');
+
+      // Paragraf 2: Deskripsi singkat
+      console.log('%cHalo! Lu penasaran ya buka console? Ini easter egg khusus buat developer atau yang suka eksplor. 😎', 'color: #10B981; font-size: 14px; margin-top: 10px;');
+
+      // Paragraf 3: Info tambahan
+      console.log('%cMasih ada lagi easter egg lain nih! ayo dicari!!', 'color: #10B981; font-size: 11px;');
+    }
+  </script>
+
+<!-- ============================= -->
+<!-- DATA PAMERAN -->
+<script src="js/data-pameran.js"></script>
+
+<!-- ============================= -->
+<!-- LOGIC SPA PAMERAN -->
+<script src="js/spa-pameran.js"></script>
+
+<div id="image-modal"
+     style="
+       display:none;
+       position:fixed;
+       inset:0;
+       background:rgba(0,0,0,0.85);
+       justify-content:center;
+       align-items:center;
+       z-index:9999;
+     ">
+
+  <img id="modal-img"
+       style="
+         max-width:95vw;
+         max-height:95vh;
+         object-fit:contain;
+         border-radius:12px;
+       ">
+</div>
+  
+<script>
+  const revealElements = document.querySelectorAll(".reveal");
+
+  const revealObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  revealElements.forEach(el => revealObserver.observe(el));
+</script>
+
+<div id="rasa-popup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+  <div class="bg-white dark:bg-gray-900 rounded-xl p-5 max-w-sm text-center animate-fade-in">
+
+    <p class="text-gray-800 dark:text-gray-200 text-sm">
+      Kadang rasa nggak perlu diucapin.  
+    </p>
+
+    <p class="text-gray-800 dark:text-gray-200 text-sm">  
+      Dia tumbuh, diem-diem, dan tetap ada.
+    </p>
+
+    <p class="text-gray-800 dark:text-gray-200 text-sm">
+      Dan yaa gw suka ama <b><em>dia</em></b>..
+    </p>
+
+    <button
+      id="close-rasa"
+      class="mt-4 px-5 py-2 rounded-lg
+         bg-green-400 hover:bg-green-500
+         text-white text-sm
+         transition duration-200 shadow">
+         Tutup
+    </button>
+
+
+
+  </div>
+</div>
+
+</body>
+
+</html>
