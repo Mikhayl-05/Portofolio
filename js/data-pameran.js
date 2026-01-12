@@ -27,7 +27,7 @@ const PAMERAN = {
 
       <p>
         Selain itu, ceritanya juga dalem banget. Gw suka gimana Genshin nggak cuma kasih quest biasa, tapi juga bikin kita mikir tentang politik, budaya, dan konflik tiap region. Jadi bukan sekadar game, tapi kayak novel interaktif yang bisa lo mainin. Buat gw, Genshin Impact itu bukan cuma hiburan, tapi dunia kedua tempat gw bisa kabur, eksplorasi, dan ngerasain petualangan epik bareng karakter favorit.🌌
-      </p>>
+      </p>
 
       <p>
         <em> "Genshin tuh pelarian dari dunia nyata menuju dunia fantasy penuh imajinasi" </em>
@@ -143,7 +143,7 @@ const PAMERAN = {
       </p>
 
       <p>
-       Disana.. ada <em>cewek</em> seumuran gw yang jadi sahabat dekat gw sejak lama banget. Dia cantik, ramah, dan keluarganya baik banget sama gw. Kita sering main, jajanan, dan jalan bareng ke Taman Bungkul atau ke Mall Tunjungan Plaza, ngobrol santai,
+       Disana.. ada <em>cewek</em> seumuran gw yang jadi sahabat dekat gw sejak masih kecil banget. Dia cantik, ramah, dan keluarganya baik banget sama gw. Kita sering main, jajanan, dan jalan bareng ke Taman Bungkul atau ke Mall Tunjungan Plaza, ngobrol santai,
         atau sekadar nikmatin angin sore. Momen bareng dia bikin Surabaya punya warna lain—bukan sekadar nostalgia masa kecil,
          tapi juga kebersamaan dan <em><b>
          <span id="easter-rasa" style="cursor:pointer;">rasa</span>
@@ -156,6 +156,50 @@ const PAMERAN = {
 
       <p>
        <em>"Surabaya bukan sekadar kota, tapi bagian dari kenangan gw yang nggak bisa hilang."</em>
+      </p>
+    `
+  },
+
+    // ======================
+  // BOT EMOTE
+  // ======================
+  media: {
+    title: "Gw Bikin Tools Curang👾",
+    description: "Bot instagram yang bisa main sendiri🤖",
+    thumb: "img/pameran/bot_emote.png",
+    meta: "Minggu, 28 Desember 2025 • Admin",
+
+    media: {
+      type: "video",
+      src: "img/pameran/bot_emote.mp4"
+    },
+
+    content: `
+      <p>
+      Kemarin gw baru aja ngerjain project kecil yang cukup seru: bikin bot Instagram yang bisa main game emote di DM secara otomatis. Awalnya cuma iseng karena malas kalah mulu-skor tertinggi gw aja cuma 49,
+      tapi lama-lama kepikiran buat bikin robot yang bisa mainin otomatis. Dari yang cuma pengen coba-coba, malah jadi serius ngulik logikanya biar botnya beneran bisa jalan sendiri.
+      </p>
+
+      <p>
+      Bot ini kerjanya dengan cara “ngeliat” layar. Gw pake computer vision buat nangkep posisi bola,
+      <em>Tracking</em> gerakannya, terus perhitungkan dan prediksi bolanya bakal jatuh di mana. Setelah itu mouse langsung digeser ke posisi yang pas buat mantulin bolanya,
+      jadi bola-nya bisa kepantul tanpa gw sentuh sama sekali.
+      </p>
+
+      <p>
+      Biar makin kerasa hidup, gw tambahin visual debug: ada titik, ada garis merah, dan gw bisa liat langsung apa yang lagi dipikirin si bot.
+      Garisnya bergetar karena lagi memperhitungkan dimana bolanya bakalan jatuh. Gw juga bikin sistem kalibrasi layar biar bot tau dimana dia bakalan main,
+      kayak ngasih dia “lapangan” buat bergerak tanpa nyasar.
+      </p>
+
+      <p>
+      Intinya, project ini seru buat gw karena bisa gabungin logika,
+      sedikit matematika, dan automation dalam satu hal yang simpel. Nggak ribet, tapi cukup bikin puas pas akhirnya botnya bisa main sendiri dengan lancar.
+      Bahkan skor awal gw bisa dilampaui jauh dua kali lipat oleh bot gw ini.
+      </p>
+
+      <p>
+        <em> “Kalah gak bikin kamu menurun,tapi ngasih kamu ide untuk cari cara lain buat menang sekalipun itu curang..” </em>
       </p>
     `
   },
