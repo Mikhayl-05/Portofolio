@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Mikhayl | Portfolio</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- EDGE FADE OVERLAYS -->
+<div id="edge-fade-top"></div>
+<div id="edge-fade-bottom"></div>
+
+<!-- MOBILE EASTER EGG TRIGGER -->
+<button id="mobile-ee-btn" title="Easter Eggs 🎉">🥚</button>
+<div id="mobile-ee-menu">
+  <button class="mob-ee-item" data-ee="credit">🎵 Credit</button>
+  <button class="mob-ee-item" data-ee="crush">💚 Crush</button>
+  <button class="mob-ee-item" data-ee="sayangku">💝 Sayangku</button>
+  <button class="mob-ee-item" data-ee="oshi">🌸 Oshi</button>
+  <button class="mob-ee-item" data-ee="matrix">🕶️ Matrix</button>
+  <button class="mob-ee-item" data-ee="linux">🐧 Linux Terminal</button>
+  <button class="mob-ee-item" data-ee="genshin">⚔️ Genshin</button>
+  <button class="mob-ee-item" data-ee="nerd">🤓 Nerd Stats</button>
+  <button class="mob-ee-item" data-ee="osint">🕵️ OSINT</button>
+  <button class="mob-ee-item" data-ee="mikhayl">👤 Mikhayl</button>
+  <button class="mob-ee-item" data-ee="snake">🐍 Snake</button>
+  <button class="mob-ee-item" data-ee="konami">🕹️ Konami</button>
+</div>
+
+<!-- SECRET PROGRESS BAR -->
+<div id="secret-bar"></div>
+
+<!-- ─── KONAMI FLASH ─── -->
+<div id="konami-flash"></div>
+
+<!-- ─── FX CANVAS ─── -->
+<canvas id="fx-canvas"></canvas>
+
+<!-- ─── AUDIO ─── -->
+<audio id="bg-music" src="musik/About you 1975.mp3" loop></audio>
+
+<!-- ─── PRELOADER ─── -->
+<div id="preloader">
+  <div class="pre-grid"></div>
+  <div class="pre-scan"></div>
+  <div class="pre-corner tl"></div>
+  <div class="pre-corner tr"></div>
+  <div class="pre-corner bl"></div>
+  <div class="pre-corner br"></div>
+  <div class="pre-dot" style="--d:3.5s;--dl:0s;--op:0.4;top:22%;left:12%"></div>
+  <div class="pre-dot" style="--d:4.2s;--dl:-1s;--op:0.25;top:65%;left:8%"></div>
+  <div class="pre-dot" style="--d:5s;--dl:-2s;--op:0.35;top:28%;right:10%"></div>
+  <div class="pre-dot" style="--d:3.8s;--dl:-0.5s;--op:0.2;top:72%;right:15%"></div>
+  <div class="pre-dot" style="--d:4.5s;--dl:-1.5s;--op:0.3;top:82%;left:28%"></div>
+  <div class="pre-ring">
+    <img src="img/profil/profil.jpg" alt="Mikhayl">
+  </div>
+  <div class="pre-name" data-text="MIKHAYL">MIKHAYL</div>
+  <div class="pre-sub">Portfolio</div>
+  <div class="pre-status" id="pre-status">Initializing</div>
+  <div class="pre-bar-wrap"><div class="pre-bar-fill"></div></div>
+</div>
+
+<!-- ── DRAWER OVERLAY ── -->
+<div id="drawer-overlay"></div>
+
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-ring"><img src="img/profil/profil.jpg" alt="Mikhayl"></div>
+    <span class="nav-name">Mikhayl</span>
+  </div>
+  <div class="nav-links" id="nav-links-desk">
+    <a href="#about"       class="nav-link">About</a>
+    <a href="#person"      class="nav-link">Personality</a>
+    <a href="#daily"       class="nav-link">Daily</a>
+    <a href="#projects"    class="nav-link">Display</a>
+    <a href="#github"      class="nav-link">GitHub</a>
+    <a href="#otherskills" class="nav-link">Skills</a>
+    <a href="#contact"     class="nav-link">Contact</a>
+  </div>
+  <div class="nav-right">
+    <button id="music-toggle" class="music-btn" title="Play / Pause">▶</button>
+    <button class="theme-toggle" id="theme-toggle-desk" title="Toggle Dark/Light Mode" aria-label="Toggle theme"></button>
+    <button id="ham-btn" class="ham-btn" aria-label="Menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Spacer for fixed navbar -->
+<div style="height:60px"></div>
+
+<!-- SIDE DRAWER MOBILE MENU -->
+<div id="mobile-menu">
+  <a href="#about"       class="nav-link">About</a>
+  <a href="#person"      class="nav-link">Personality</a>
+  <a href="#daily"       class="nav-link">Daily</a>
+  <a href="#projects"    class="nav-link">Display</a>
+  <a href="#github"      class="nav-link">GitHub</a>
+  <a href="#otherskills" class="nav-link">Skills</a>
+  <a href="#contact"     class="nav-link">Contact</a>
+  <div id="drawer-bottom">
+    <span class="theme-icon" id="drawer-theme-icon">🌙</span>
+    <button class="theme-toggle" id="theme-toggle-mob" aria-label="Toggle theme"></button>
+    <span style="font-family:var(--font-m);font-size:0.6rem;color:var(--text-muted);letter-spacing:1px" id="drawer-theme-label">Dark Mode</span>
+  </div>
+</div>
+
+<!-- MUSIC POPUP -->
+<div id="music-popup">
+  <div id="music-box">
+    <button id="music-close" class="modal-close">&times;</button>
+    <div style="font-size:2rem;margin-bottom:10px">🎵</div>
+    <h2 style="font-family:var(--font-d);font-weight:700;font-size:1.2rem;margin-bottom:8px">Play background music?</h2>
+    <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:20px;line-height:1.6">Buat pengalaman terbaik explore portfolio ini</p>
+    <button id="music-ok" class="sup-btn" style="width:100%">▶ &nbsp;Play Music</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-grad"></div>
+  <canvas id="snake-canvas"></canvas>
+  <div style="position:relative;z-index:3;display:flex;flex-direction:column;align-items:center">
+    <div class="avatar-ring"><img src="img/profil/profil.jpg" alt="Mikhayl"></div>
+    <div class="hero-badge">Available for collab</div>
+    <h1 class="hero-name" data-text="MIKHAYL">MIKHAYL</h1>
+    <p class="hero-sub">/ Designer · Dev · Creator /</p>
+    <div class="social-row">
+      <a href="https://instagram.com/mhmyl_" target="_blank" class="social-btn" title="Instagram">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/></svg>
+      </a>
+      <a href="https://wa.me/6285398285037" target="_blank" class="social-btn" title="WhatsApp">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.946 11.946 0 0012 0C5.373 0 0 5.373 0 12c0 2.109.554 4.082 1.516 5.844L0 24l6.408-1.513A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12 0-3.195-1.25-6.186-3.48-8.52zm-2.27 13.49c-.193.54-1.129 1.027-1.588 1.086-.425.053-.956.074-2.414-.68-3.284-1.454-5.406-5.107-5.556-5.354-.15-.248-1.268-1.842-1.268-3.515 0-1.673.879-2.494 1.19-2.833.31-.339.677-.423.902-.423.226 0 .447.003.642.007.21.005.492-.08.77.588.277.668.944 2.315 1.028 2.488.083.174.138.38.003.614-.135.233-.203.38-.405.59-.202.21-.426.468-.608.63-.202.181-.417.381-.298.646.119.264.527 1.072 1.13 1.736.78.842 1.446 1.126 1.667 1.255.22.129.347.108.475-.065.128-.174.548-.64.693-.857.145-.218.294-.18.507-.107.212.073 1.336.63 1.562.743.226.114.377.17.433.266.057.096.057.554-.136 1.093z"/></svg>
+      </a>
+      <a href="https://github.com/Mikhayl-05" target="_blank" class="social-btn" title="GitHub" id="hero-github-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12L2 6h12z"/></svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     ABOUT ME — 01
+══════════════════════════════════════════ -->
+<section id="about" class="section-wrap">
+  <span class="float-deco" style="--fd-top:7%;--fd-left:91%;--fd-size:2.2rem;--fd-dur:6.5s;--fd-delay:0s;--fd-op:0.18">💻</span>
+  <span class="float-deco" style="--fd-top:78%;--fd-left:2%;--fd-size:1.7rem;--fd-dur:7.2s;--fd-delay:-2.1s;--fd-op:0.14">🎨</span>
+  <span class="float-deco" style="--fd-top:40%;--fd-left:95%;--fd-size:1.4rem;--fd-dur:5.3s;--fd-delay:-3.7s;--fd-op:0.12">📸</span>
+  <span class="float-deco" style="--fd-top:22%;--fd-left:4%;--fd-size:1.2rem;--fd-dur:8s;--fd-delay:-1.5s;--fd-op:0.10">⚙️</span>
+
+  <div class="reveal">
+    <div class="section-label">/ 01 — WHO AM I</div>
+    <h2 class="section-title">About Me</h2>
+  </div>
+  <div class="two-col">
+    <div class="col-img reveal-left">
+      <div class="flip-card" id="flip-about">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img loading="lazy" src="img/profil/profil1.jpg" alt="Mikhayl" class="about-photo">
+            <div class="flip-hint">klik / tap untuk flip ✦</div>
+          </div>
+          <div class="flip-card-back" style="padding:0;background:var(--bg2);">
+            <div id="now-playing-card">
+              <div class="np-art-wrap">
+                <div class="np-vinyl" id="np-vinyl">
+                  <div class="np-vinyl-inner">
+                    <div class="np-vinyl-groove g1"></div>
+                    <div class="np-vinyl-groove g2"></div>
+                    <div class="np-vinyl-groove g3"></div>
+                    <div class="np-vinyl-center"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="np-info">
+                <div class="np-badge" id="np-badge">
+                  <span class="np-dot" id="np-dot"></span>
+                  <span id="np-status-txt">PAUSED</span>
+                </div>
+                <div class="np-song">About You</div>
+                <div class="np-artist">The 1975</div>
+                <div class="np-eq" id="np-eq">
+                  <span class="np-bar"></span>
+                  <span class="np-bar"></span>
+                  <span class="np-bar"></span>
+                  <span class="np-bar"></span>
+                  <span class="np-bar"></span>
+                </div>
+                <div class="np-progress-wrap">
+                  <div class="np-progress-bar" id="np-progress"></div>
+                </div>
+                <div class="np-times">
+                  <span id="np-cur">0:00</span>
+                  <span id="np-dur">3:24</span>
+                </div>
+              </div>
+              <div class="np-footer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                <span>Spotify</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-txt reveal-right">
+      <div class="glass about-card card-hover-bright">
+        <div class="about-num">01</div>
+        <h3 id="about-typewriter" class="tw-cursor" style="font-family:var(--font-d);font-size:1.3rem;font-weight:700;margin-bottom:14px;color:var(--green);height:2rem;overflow:hidden;white-space:nowrap;display:block"></h3>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:12px;font-size:0.9rem">
+          Hanya seorang pelajar yang masih muda kelahiran Jakarta yang senang mengeksplorasi teknologi atau hal-hal baru — komputer, linux, design grafis, fotografi, videografi, dan lain sebagainya..
+        </p>
+        <p style="color:var(--text-muted);line-height:1.85;font-size:0.9rem">
+          Fokus gue yaitu berusaha ngembangin skill-skill yang gue minati. Oh iya, Mikhayl itu nama samaran.. Hehe :)
+        </p>
+        <div class="chips-row">
+          <span class="chip">Jakarta 🗺️</span>
+          <span class="chip">Student 📚</span>
+          <span class="chip">Creator ✨</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     PERSONALITY — 02
+══════════════════════════════════════════ -->
+<section id="person" class="section-wrap">
+  <span class="float-deco" style="--fd-top:6%;--fd-left:4%;--fd-size:2rem;--fd-dur:6s;--fd-delay:-0.8s;--fd-op:0.16">🎭</span>
+  <span class="float-deco" style="--fd-top:82%;--fd-left:93%;--fd-size:1.6rem;--fd-dur:7.5s;--fd-delay:-3s;--fd-op:0.13">🖥️</span>
+  <span class="float-deco" style="--fd-top:48%;--fd-left:1%;--fd-size:1.3rem;--fd-dur:5s;--fd-delay:-1.8s;--fd-op:0.11">🔍</span>
+
+  <div class="reveal" style="text-align:right">
+    <div class="section-label">/ 02 — MY VIBE</div>
+    <h2 class="section-title">Personality</h2>
+  </div>
+  <div class="two-col two-col-rev">
+    <div class="col-txt reveal-left">
+      <div class="glass about-card card-hover-bright">
+        <div class="about-num">02</div>
+        <h3 id="personality-typewriter" class="tw-cursor" style="font-family:var(--font-d);font-size:1.3rem;font-weight:700;margin-bottom:14px;color:var(--green);height:2rem;overflow:hidden;white-space:nowrap;display:block"></h3>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:12px;font-size:0.9rem">Gue demen banget ngulik teknologi, desain sama editing.</p>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:12px;font-size:0.9rem">Di luar desain, hobi gue biasa aja — mainin komputer, buka instagram, ngulik hal random kayak belajar linux, hacking, dll. Bosen parah! <em>temen aja cuma dikit</em></p>
+        <p style="color:var(--text-muted);line-height:1.85;font-size:0.9rem">Yahh.. walaupun sering natap layar, gue tetap waras yah.</p>
+      </div>
+    </div>
+    <div class="col-img reveal-right">
+      <div class="flip-card" id="flip-person">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img loading="lazy" src="img/profil/profil2.jpg" alt="Mikhayl" class="about-photo">
+            <div class="flip-hint">klik / tap untuk flip ✦</div>
+          </div>
+          <div class="flip-card-back">
+            <div class="flip-num">02</div>
+            <div class="flip-emoji">🎭</div>
+            <div class="flip-title">Vibes Gw</div>
+            <p class="flip-body">Introvert yang betah di depan layar. Suka ngulik hal random dari linux sampe desain. Temen dikit, tapi kreativitas banyak 😂</p>
+            <div class="flip-chips">
+              <span class="chip">Linux 🐧</span>
+              <span class="chip">Design 🎨</span>
+              <span class="chip">OSINT 🕵️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     DAILY LIFE — 03
+══════════════════════════════════════════ -->
+<section id="daily" class="section-wrap">
+  <span class="float-deco" style="--fd-top:9%;--fd-left:93%;--fd-size:2rem;--fd-dur:7s;--fd-delay:-2.3s;--fd-op:0.17">🎈</span>
+  <span class="float-deco" style="--fd-top:75%;--fd-left:1%;--fd-size:1.5rem;--fd-dur:5.8s;--fd-delay:-4s;--fd-op:0.12">🌙</span>
+  <span class="float-deco" style="--fd-top:38%;--fd-left:96%;--fd-size:1.3rem;--fd-dur:6.5s;--fd-delay:-1s;--fd-op:0.10">📱</span>
+
+  <div class="reveal">
+    <div class="section-label">/ 03 — EVERYDAY</div>
+    <h2 class="section-title">Daily Life</h2>
+  </div>
+  <div class="two-col">
+    <div class="col-img reveal-left">
+      <div class="flip-card" id="flip-daily">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img loading="lazy" src="img/profil/profil3.jpg" alt="Mikhayl" class="about-photo">
+            <div class="flip-hint">klik / tap untuk flip ✦</div>
+          </div>
+          <div class="flip-card-back">
+            <div class="flip-num">03</div>
+            <div class="flip-emoji">🎈</div>
+            <div class="flip-title">Keseharian Gw</div>
+            <p class="flip-body">Kebanyakan di Rumah. Kalau di rumah ya natap layar aja — ngulik, desain, atau main game. Hidup kayak kanvas, tinggal coret aja! 🖌️</p>
+            <div class="flip-chips">
+              <span class="chip">Pesantren 🕌</span>
+              <span class="chip">Gaming ⚔️</span>
+              <span class="chip">Coding 💻</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-txt reveal-right">
+      <div class="glass about-card card-hover-bright">
+        <div class="about-num">03</div>
+        <h3 id="daily-typewriter" class="tw-cursor" style="font-family:var(--font-d);font-size:1.3rem;font-weight:700;margin-bottom:14px;color:var(--green);height:2rem;overflow:hidden;white-space:nowrap;display:block"></h3>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:12px;font-size:0.9rem">Mungkin banyak yang ngira gue wibu.. tapi seriusan, gue cuma sekedar <em>Interest</em> aja sama gayanya dan bahkan jarang nonton anime</p>
+        <p style="color:var(--text-muted);line-height:1.85;margin-bottom:12px;font-size:0.9rem">Keseharian gw biasa aja soalnya kebanyakan di Pesantren, kalau di rumah ngebosenin banget. Gak bisa keluar dan hangout <em>ya karena gak ada temen</em></p>
+        <p style="color:var(--text-muted);line-height:1.85;font-size:0.9rem">Intinya hidup di gua kayak kanvas, tinggal coret aja–asal jangan keluar dari batasan kanvas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     PAMERAN — 04
+══════════════════════════════════════════ -->
+<section id="projects" class="section-wrap">
+  <div class="reveal">
+    <div class="section-label">/ 04 — PAMERAN</div>
+    <h2 class="section-title">Display</h2>
+    <p style="color:var(--text-muted);font-size:0.88rem;margin-top:-28px;margin-bottom:32px">Hal-hal yang pengen gw share & ceritain</p>
+  </div>
+  <div id="pameran-grid" class="pameran-grid"></div>
+</section>
+
+<!-- PAMERAN DETAIL -->
+<section id="pameran-page" class="hidden">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:28px;flex-wrap:wrap">
+    <h1 id="pameran-title" style="font-family:var(--font-d);font-size:clamp(1.4rem,4vw,2.2rem);font-weight:800;color:var(--green);line-height:1.1"></h1>
+    <button onclick="backToHome()" class="pameran-back">← Kembali</button>
+  </div>
+  <div class="media-wrap" style="margin-bottom:20px"></div>
+  <div id="pameran-meta" style="font-family:var(--font-m);font-size:0.62rem;color:var(--text-muted);letter-spacing:2px;margin-bottom:20px"></div>
+  <article id="pameran-content" style="color:var(--text-muted);line-height:1.9;font-size:0.9rem" class="space-y-4"></article>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     GITHUB — 05
+══════════════════════════════════════════ -->
+<section id="github" class="section-wrap">
+  <div class="reveal">
+    <div class="section-label">/ 05 — OPEN SOURCE</div>
+    <h2 class="section-title">GitHub Projects</h2>
+    <p style="color:var(--text-muted);font-size:0.88rem;margin-top:-28px;margin-bottom:32px">Project & eksperimen yang gw build dan share</p>
+  </div>
+
+  <div class="glass gh-profile-strip reveal card-hover-bright" style="border-radius:16px;margin-bottom:24px">
+    <img loading="lazy" src="img/profil/profil.jpg" alt="GitHub" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--green-dim);flex-shrink:0">
+    <div style="min-width:0">
+      <div style="font-family:var(--font-d);font-weight:700;font-size:1rem">Mikhayl-05</div>
+      <div style="font-family:var(--font-m);font-size:0.6rem;color:var(--text-muted);letter-spacing:2px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">github.com/Mikhayl-05</div>
+    </div>
+    <div style="flex:1;min-width:0"></div>
+    <a href="https://github.com/Mikhayl-05" target="_blank" class="sup-btn" style="font-size:0.72rem;padding:9px 18px;white-space:nowrap;flex-shrink:0">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      View Profile
+    </a>
+  </div>
+
+  <div class="gh-repos reveal" id="github-repos">
+    <div class="gh-skeleton"></div>
+    <div class="gh-skeleton"></div>
+    <div class="gh-skeleton"></div>
+  </div>
+
+  <div class="glass reveal card-hover-bright" style="border-radius:16px;padding:24px;margin-top:28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <span style="font-family:var(--font-m);font-size:0.62rem;letter-spacing:2px;color:var(--text-muted)">CONTRIBUTION ACTIVITY</span>
+      <div style="display:flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:0.58rem;color:var(--text-muted)">
+        Less
+        <div class="contrib-cell"></div><div class="contrib-cell l1"></div>
+        <div class="contrib-cell l2"></div><div class="contrib-cell l3"></div>
+        <div class="contrib-cell l4"></div>
+        More
+      </div>
+    </div>
+    <div id="contrib-graph" style="overflow-x:auto;padding-bottom:4px;max-width:100%;"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SKILLS — 06
+══════════════════════════════════════════ -->
+<section id="otherskills" class="section-wrap">
+  <div class="reveal">
+    <div class="section-label">/ 06 — EXPERTISE</div>
+    <h2 class="section-title">Main Skills</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px">
+    <div class="skill-item reveal d1" data-title="Videografi / Fotografi" data-desc="Menguasai fotografi & videografi, pencahayaan, komposisi, dan pengambilan gambar dan video yang cukup profesional.">
+      <img loading="lazy" src="https://img.icons8.com/color/96/camera.png" style="width:42px;height:42px;margin:0 auto 10px;display:block">
+      <div style="font-family:var(--font-d);font-weight:600;font-size:0.85rem">Videografi / Foto</div>
+    </div>
+    <div class="skill-item reveal d2" data-title="Editing" data-desc="Kemampuan editing desain, video & foto menggunakan software seperti Alight Motion.">
+      <img loading="lazy" src="https://img.icons8.com/color/96/video.png" style="width:42px;height:42px;margin:0 auto 10px;display:block">
+      <div style="font-family:var(--font-d);font-weight:600;font-size:0.85rem">Editing</div>
+    </div>
+    <div class="skill-item reveal d3" data-title="Graphic Design" data-desc="Desain grafis kreatif, ilustrasi, branding, dan pembuatan konten visual menarik.">
+      <img loading="lazy" src="https://img.icons8.com/color/96/paint-palette.png" style="width:42px;height:42px;margin:0 auto 10px;display:block">
+      <div style="font-family:var(--font-d);font-weight:600;font-size:0.85rem">Graphic Design</div>
+    </div>
+    <div class="skill-item reveal d4" data-title="Computer & Tech" data-desc="Kemampuan menggunakan komputer, software, internet, dan dasar teknologi seperti Linux untuk kebutuhan kerja & produktivitas.">
+      <img loading="lazy" src="https://cdn-icons-png.flaticon.com/512/1006/1006363.png" style="width:42px;height:42px;margin:0 auto 10px;display:block">
+      <div style="font-family:var(--font-d);font-weight:600;font-size:0.85rem">Computer</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILL MODAL -->
+<div id="skill-modal" class="hidden">
+  <div id="modal-content">
+    <button id="close-modal" class="modal-close">&times;</button>
+    <div class="section-label" style="margin-bottom:4px">Skill Detail</div>
+    <h3 id="modal-title" style="font-family:var(--font-d);font-size:1.15rem;font-weight:700;margin-bottom:10px"></h3>
+    <p id="modal-desc" style="color:var(--text-muted);line-height:1.75;font-size:0.85rem"></p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     CONTACT — 07
+══════════════════════════════════════════ -->
+<section id="contact" style="padding:100px 20px;text-align:center;max-width:650px;margin:0 auto">
+  <div class="reveal">
+    <div class="section-label">/ 07 — SUPPORT</div>
+    <h2 class="section-title">Support Me!</h2>
+    <p style="color:var(--text-muted);line-height:1.85;margin-bottom:36px;font-size:0.88rem">
+      Suka sama karya atau project gue? Lo bisa dukung gue lewat <em>trakteer</em> biar tetap semangat bikin hal-hal baru! ☕✨
+    </p>
+    <a id="message-btn" href="https://trakteer.id/mikhayll" class="sup-btn">☕ &nbsp;Support via Trakteer</a>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <p>&copy; 2025 <span class="hl">Mikhayl</span>. Crafted with passion & late nights.</p>
+  <p style="margin-top:5px;font-size:0.52rem;opacity:.6">[ credit · crush · oshi · matrix · linux · genshin · pesantren · nerd · mikhayl · snake · bored · osint · ↑↑↓↓←→←→BA ]</p>
+</footer>
+
+
+<!-- ══════════════════════════════════════════
+     EASTER EGG — DEFAULT POPUP
+══════════════════════════════════════════ -->
+<div id="easter-egg" class="hidden">
+  <div id="ee-backdrop"></div>
+  <div class="ee-box" id="ee-box">
+    <div class="ee-label">🎉 Easter Egg Found!</div>
+    <p id="ee-text" style="color:var(--text-muted);margin-bottom:16px;line-height:1.75;font-size:0.85rem;white-space:pre-line"></p>
+    <img id="ee-img" style="display:none;max-height:210px;width:100%;object-fit:cover;border-radius:10px;margin-bottom:16px" alt="">
+    <button id="close-ee" class="sup-btn" style="font-size:0.78rem;padding:10px 22px">Close</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MATRIX EASTER EGG — FULL SCREEN
+══════════════════════════════════════════ -->
+<div id="matrix-overlay">
+  <canvas id="matrix-canvas"></canvas>
+  <button class="matrix-close-hint" id="close-matrix">[ ESC / TAP TO EXIT MATRIX ]</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     LINUX TERMINAL EASTER EGG
+══════════════════════════════════════════ -->
+<div id="linux-overlay">
+  <div class="term-window">
+    <div class="term-titlebar">
+      <div class="term-dot red" id="term-close-dot" title="Close"></div>
+      <div class="term-dot yellow"></div>
+      <div class="term-dot green"></div>
+      <span>mikhayl@portfolio:~</span>
+    </div>
+    <div class="term-body" id="term-body">
+      <span class="term-cursor"></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     RASA POPUP
+══════════════════════════════════════════ -->
+<div id="rasa-popup" class="hidden">
+  <div class="glass" style="padding:28px;max-width:340px;width:calc(100% - 32px);text-align:center;border-color:rgba(57,255,20,.3)">
+    <div style="font-size:1.5rem;margin-bottom:10px">💚</div>
+    <p style="color:var(--text-muted);font-size:0.88rem;line-height:1.85;margin-bottom:8px">Kadang rasa nggak perlu diucapin.</p>
+    <p style="color:var(--text-muted);font-size:0.88rem;line-height:1.85;margin-bottom:8px">Dia tumbuh, diem-diem, dan tetap ada.</p>
+    <p style="font-size:0.88rem;line-height:1.85;margin-bottom:20px">Dan yaa gw suka ama <b><em>dia</em></b>..</p>
+    <button id="close-rasa" class="sup-btn" style="font-size:0.78rem;padding:10px 22px">Tutup</button>
+  </div>
+</div>
+
+
+<!-- IMAGE MODAL -->
+<div id="image-modal">
+  <img id="modal-img" alt="">
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
+<script src="js/config.js"></script>
+<script src="js/data-pameran.js"></script>
+<script src="js/spa-pameran.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
