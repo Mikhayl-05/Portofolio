@@ -238,7 +238,7 @@ const EE_LIST = [
     keyword : 'fineshyt',
     text    : 'Dibilangin ini pacar gwehj gak percaya.. 🤧🙃',
     img     : 'img/easter/berandalan.jpg',
-    audio   : 'musik/berandalan.mp3',
+    audio   : 'musik/Berandalan.mp3',
   },
     {
     keyword : 'kimmy',
