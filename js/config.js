@@ -303,13 +303,11 @@ const EE_LIST = [
    ============================================================ */
 const EE_MOBILE_MENU = [
   { label: '🎵 Credit',         keyword: 'credit'    },
+  { label: '🎀 fineshyt',       keyword: 'fineshyt'  },
+  { label: '🎥 kimmy',          keyword: 'kimmy'     },
   { label: '💚 Crush',          keyword: 'crush'     },
   { label: '💝 Sayangku',       keyword: 'sayangku'  },
   { label: '🌸 Oshi',           keyword: 'oshi'      },
   { label: '🕶️ Matrix',         keyword: 'matrix'    },
   { label: '🐧 Linux Terminal', keyword: 'linux'     },
-  { label: '⚔️ Genshin',        keyword: 'genshin'   },
-  { label: '🤓 Nerd Stats',     keyword: 'nerd'      },
-  { label: '🕵️ OSINT',          keyword: 'osint'     },
-  { label: '👤 Mikhayl',        keyword: 'mikhayl'   },
 ];
