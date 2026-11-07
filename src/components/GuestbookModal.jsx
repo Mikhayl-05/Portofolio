@@ -36,10 +36,24 @@ export default function GuestbookModal({ isOpen, onClose, playClick, triggerHapt
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [showSetupGuide, setShowSetupGuide] = useState(false);
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
   const listRef = useRef(null);
   const nameRef = useRef(null);
+  const emojiWrapRef = useRef(null);
   const configured = isSupabaseConfigured();
+
+  // Close emoji picker on outside click
+  useEffect(() => {
+    if (!emojiPickerOpen) return;
+    const handleOutside = (e) => {
+      if (emojiWrapRef.current && !emojiWrapRef.current.contains(e.target)) {
+        setEmojiPickerOpen(false);
+      }
+    };
+    document.addEventListener('click', handleOutside);
+    return () => document.removeEventListener('click', handleOutside);
+  }, [emojiPickerOpen]);
 
   // Load real messages from Supabase
   const loadLiveMessages = useCallback(async () => {
@@ -230,15 +244,25 @@ export default function GuestbookModal({ isOpen, onClose, playClick, triggerHapt
         <form className="gb-form" onSubmit={handleSubmit} noValidate>
           <div className="gb-form__row">
             {/* Emoji picker */}
-            <div className="gb-emoji-wrap">
-              <div className="gb-emoji-selected" title="Pilih Emoji">{selectedEmoji}</div>
-              <div className="gb-emoji-picker">
+            <div className="gb-emoji-wrap" ref={emojiWrapRef}>
+              <div
+                className="gb-emoji-selected"
+                title="Pilih Avatar Emoji"
+                onClick={() => setEmojiPickerOpen((prev) => !prev)}
+              >
+                {selectedEmoji}
+              </div>
+              <div className={`gb-emoji-picker ${emojiPickerOpen ? 'gb-emoji-picker--open' : ''}`}>
                 {EMOJI_LIST.map((em) => (
                   <button
                     key={em}
                     type="button"
                     className={`gb-emoji-btn ${selectedEmoji === em ? 'gb-emoji-btn--active' : ''}`}
-                    onClick={() => { setSelectedEmoji(em); playClick?.(1.0); }}
+                    onClick={() => {
+                      setSelectedEmoji(em);
+                      setEmojiPickerOpen(false);
+                      playClick?.(1.0);
+                    }}
                     aria-label={em}
                   >
                     {em}
