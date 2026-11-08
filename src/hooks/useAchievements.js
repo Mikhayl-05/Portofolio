@@ -20,10 +20,10 @@ export const ACHIEVEMENTS = [
     secret: false,
   },
   {
-    id: 'terminal_wizard',
-    icon: '💻',
-    title: 'Terminal Wizard',
-    desc: 'Mengetik 3 perintah berbeda di Linux Terminal',
+    id: 'command_pro',
+    icon: '⌨️',
+    title: 'Command Pro',
+    desc: 'Mengetik 10 perintah berbeda di Linux Terminal',
     secret: false,
   },
   {
@@ -135,7 +135,7 @@ export function useAchievements() {
 
   const onTerminalCommand = useCallback((cmd) => {
     termCmdsRef.current.add(cmd);
-    if (termCmdsRef.current.size >= 3) unlock('terminal_wizard');
+    if (termCmdsRef.current.size >= 10) unlock('command_pro');
   }, [unlock]);
 
   const onSnakeScore = useCallback((score) => {

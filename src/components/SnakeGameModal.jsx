@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { fetchLeaderboard, postScore } from '../services/supabaseLeaderboard';
 
 const GRID_SIZE = 22; // 22 x 22 tiles
 const HIGH_SCORE_KEY = 'mikhayl_snake_highscore';
@@ -58,6 +59,50 @@ export default function SnakeGameModal({
   const [isPaused, setIsPaused] = useState(false);
   const [activePowerup, setActivePowerup] = useState(null);
   const [powerupTimeLeft, setPowerupTimeLeft] = useState(0);
+
+  // Leaderboard state
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [lbLoading, setLbLoading] = useState(false);
+  const [lbError, setLbError] = useState(null);
+  // Name submission after game over
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const loadLeaderboard = useCallback(async () => {
+    setLbLoading(true);
+    setLbError(null);
+    try {
+      const data = await fetchLeaderboard(10);
+      setLeaderboard(data);
+    } catch {
+      setLbError('Gagal memuat leaderboard. Coba lagi.');
+    } finally {
+      setLbLoading(false);
+    }
+  }, []);
+
+  const handleSubmitScore = useCallback(async () => {
+    if (submitting || submitted) return;
+    const finalScore = gameStateRef.current.score;
+    if (finalScore <= 0) { setShowNameInput(false); return; }
+    setSubmitting(true);
+    try {
+      await postScore(playerName || 'Anonymous', finalScore);
+      setSubmitted(true);
+      setShowNameInput(false);
+      // Reload leaderboard after submit
+      loadLeaderboard();
+    } catch {
+      // silent fail — still mark done
+      setSubmitted(true);
+      setShowNameInput(false);
+    } finally {
+      setSubmitting(false);
+    }
+  }, [playerName, submitting, submitted, loadLeaderboard]);
 
   // Game Engine State via Refs (avoids stale closures in requestAnimationFrame/setInterval)
   const gameStateRef = useRef({
@@ -183,6 +228,8 @@ export default function SnakeGameModal({
     setIsPaused(false);
     setActivePowerup(null);
     setPowerupTimeLeft(0);
+    setShowNameInput(false);
+    setSubmitted(false);
     spawnFood();
   }, [spawnFood]);
 
@@ -214,6 +261,12 @@ export default function SnakeGameModal({
           origin: { y: 0.5 },
         });
       }
+    }
+
+    // Show name input to submit score (only if score > 0)
+    if (finalScore > 0) {
+      setSubmitted(false);
+      setShowNameInput(true);
     }
   }, [playSuccess, triggerHaptic]);
 
@@ -647,6 +700,16 @@ export default function SnakeGameModal({
               {isPaused ? '▶ Lanjut' : '⏸ Jeda'}
             </button>
             <button
+              className="snake-pause-btn"
+              onClick={() => {
+                loadLeaderboard();
+                setShowLeaderboard(true);
+              }}
+              title="Lihat Leaderboard"
+            >
+              🏆
+            </button>
+            <button
               className="snake-close-btn"
               onClick={() => {
                 playClick?.(0.9);
@@ -721,7 +784,7 @@ export default function SnakeGameModal({
                     <span className="overlay-trophy">🏆🔥</span>
                     <h3 className="new-record-title">REKOR BARU TERCIPTA!</h3>
                     <p className="new-record-msg">
-                      Gokil! Kamu berhasil mencetak skor <strong>{score}</strong> dan memecahkan rekor sebelumnya!
+                      Gokil! Skor <strong>{score}</strong> memecahkan rekor sebelumnya!
                     </p>
                   </>
                 ) : (
@@ -729,12 +792,48 @@ export default function SnakeGameModal({
                     <span className="overlay-trophy">💀</span>
                     <h3 className="game-over-title">GAME OVER</h3>
                     <p className="game-over-msg">
-                      Skor kamu: <strong>{score}</strong> · Rekor saat ini: <strong>{highScore}</strong>
+                      Skor kamu: <strong>{score}</strong> · Rekor: <strong>{highScore}</strong>
                     </p>
                     <p className="game-over-tip">
                       Ambil powerup ⚡🛡️❄️💎 untuk melipatgandakan skor!
                     </p>
                   </>
+                )}
+
+                {/* Name input to submit score */}
+                {showNameInput && score > 0 && (
+                  <div className="go-name-wrap">
+                    <p className="go-name-label">Simpan skormu ke leaderboard global! 🌍</p>
+                    <div className="go-name-row">
+                      <input
+                        className="go-name-input"
+                        type="text"
+                        placeholder="Nama kamu (maks 24 karakter)"
+                        maxLength={24}
+                        value={playerName}
+                        onChange={e => setPlayerName(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleSubmitScore(); }}
+                        autoFocus
+                      />
+                      <button
+                        className="snake-action-btn primary-btn go-submit-btn"
+                        onClick={handleSubmitScore}
+                        disabled={submitting}
+                      >
+                        {submitting ? '...' : '✔ Kirim'}
+                      </button>
+                    </div>
+                    <button
+                      className="go-skip-btn"
+                      onClick={() => { setShowNameInput(false); setSubmitted(true); }}
+                    >
+                      Lewati
+                    </button>
+                  </div>
+                )}
+
+                {submitted && !showNameInput && (
+                  <p className="go-submitted-msg">✅ Skor tersimpan di leaderboard!</p>
                 )}
 
                 <div className="game-over-btns">
@@ -748,6 +847,16 @@ export default function SnakeGameModal({
                     🔄 Main Lagi
                   </button>
                   <button
+                    className="snake-action-btn lb-btn"
+                    onClick={() => {
+                      playClick?.(1.0);
+                      setShowLeaderboard(true);
+                      loadLeaderboard();
+                    }}
+                  >
+                    🏆 Leaderboard
+                  </button>
+                  <button
                     className="snake-action-btn secondary-btn"
                     onClick={() => {
                       playClick?.(0.9);
@@ -756,6 +865,38 @@ export default function SnakeGameModal({
                   >
                     ✕ Keluar
                   </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Leaderboard Overlay */}
+          {showLeaderboard && (
+            <div className="snake-canvas-overlay lb-overlay">
+              <div className="snake-lb-box">
+                <div className="lb-header">
+                  <span className="lb-title">🏆 TOP 10 LEADERBOARD</span>
+                  <button className="lb-close-btn" onClick={() => setShowLeaderboard(false)}>✕</button>
+                </div>
+                {lbLoading && <p className="lb-loading">Memuat data...</p>}
+                {lbError && <p className="lb-error">{lbError}</p>}
+                {!lbLoading && !lbError && (
+                  <ol className="lb-list">
+                    {leaderboard.length === 0 && (
+                      <li className="lb-empty">Belum ada skor. Jadilah yang pertama!</li>
+                    )}
+                    {leaderboard.map((entry, i) => (
+                      <li key={entry.id} className={`lb-entry ${i < 3 ? 'lb-top' : ''}`}>
+                        <span className="lb-rank">{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}</span>
+                        <span className="lb-name">{entry.player_name}</span>
+                        <span className="lb-score">{entry.score}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                <div className="lb-actions">
+                  <button className="snake-action-btn primary-btn" onClick={() => { setShowLeaderboard(false); restartGame(); }}>🔄 Main Lagi</button>
+                  <button className="snake-action-btn secondary-btn" onClick={() => setShowLeaderboard(false)}>Tutup</button>
                 </div>
               </div>
             </div>

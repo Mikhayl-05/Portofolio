@@ -108,16 +108,6 @@ export default function Navbar({
           ))}
         </div>
         <div className="nav-right">
-          {achievementsUnlockedCount > 0 && (
-            <button
-              className="nav-ach-btn"
-              title={`Achievement Hub (${achievementsUnlockedCount} Unlocked)`}
-              onClick={onOpenAchievements}
-            >
-              <span>🏆</span>
-              <span className="nav-ach-badge">{achievementsUnlockedCount}</span>
-            </button>
-          )}
           <button id="music-toggle" className={`music-btn${playing ? ' playing' : ''}`}
             title="Play / Pause Musik" onClick={onMusicToggle}>
             {playing ? '⏸' : '▶'}

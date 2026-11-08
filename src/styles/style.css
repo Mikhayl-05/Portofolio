@@ -5319,6 +5319,194 @@
       box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
     }
 
+    /* ── Snake Leaderboard Styles ── */
+    .lb-overlay {
+      background: rgba(5, 10, 20, 0.95) !important;
+      backdrop-filter: blur(16px);
+    }
+
+    .snake-lb-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 340px;
+      max-height: 90%;
+    }
+
+    .lb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(57, 255, 20, 0.25);
+    }
+
+    .lb-title {
+      font-family: var(--font-d);
+      font-size: 1rem;
+      font-weight: 800;
+      color: #facc15;
+      text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+    }
+
+    .lb-close-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+    .lb-close-btn:hover { color: #ef4444; }
+
+    .lb-loading, .lb-error, .lb-empty {
+      font-family: var(--font-m);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 12px 0;
+    }
+    .lb-error { color: #ef4444; }
+
+    .lb-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      max-height: 240px;
+    }
+
+    .lb-entry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s;
+    }
+
+    .lb-entry.lb-top {
+      background: rgba(250, 204, 21, 0.06);
+      border-color: rgba(250, 204, 21, 0.2);
+    }
+
+    .lb-rank {
+      font-size: 1rem;
+      min-width: 28px;
+      text-align: center;
+      font-family: var(--font-d);
+    }
+
+    .lb-name {
+      flex: 1;
+      font-family: var(--font-m);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lb-score {
+      font-family: var(--font-d);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #39FF14;
+    }
+
+    .lb-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .snake-action-btn.lb-btn {
+      background: rgba(250, 204, 21, 0.1);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      color: #facc15;
+    }
+    .snake-action-btn.lb-btn:hover {
+      background: rgba(250, 204, 21, 0.2);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
+    }
+
+    /* ── Game Over Name Input Styles ── */
+    .go-name-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px;
+      background: rgba(57, 255, 20, 0.05);
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: 10px;
+      margin: 6px 0;
+    }
+
+    .go-name-label {
+      font-family: var(--font-m);
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.75);
+      margin: 0;
+      text-align: center;
+    }
+
+    .go-name-row {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .go-name-input {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: var(--font-m);
+      font-size: 0.75rem;
+      color: #fff;
+      outline: none;
+      min-width: 0;
+    }
+    .go-name-input::placeholder { color: rgba(255,255,255,0.3); }
+    .go-name-input:focus { border-color: var(--green); box-shadow: 0 0 8px rgba(57, 255, 20, 0.2); }
+
+    .go-submit-btn {
+      white-space: nowrap;
+      padding: 6px 12px !important;
+    }
+
+    .go-skip-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      font-family: var(--font-m);
+      font-size: 0.65rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+    .go-skip-btn:hover { color: rgba(255,255,255,0.6); }
+
+    .go-submitted-msg {
+      font-family: var(--font-m);
+      font-size: 0.72rem;
+      color: var(--green);
+      margin: 4px 0;
+    }
+
     /* ══════════════════════════════════════════════════════════════════
        GENSHIN IMPACT WISH SIMULATOR MODAL — PREMIUM REBUILD (GELOMBANG 3)
     ══════════════════════════════════════════════════════════════════ */
