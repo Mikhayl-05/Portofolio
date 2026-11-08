@@ -1,25 +1,52 @@
 /* ============================================================
-   supabaseLeaderboard.js — Snake Leaderboard via Supabase
+   supabaseLeaderboard.js — Snake Leaderboard via Supabase REST API
+   Menggunakan standard fetch API tanpa dependency eksternal.
    ============================================================ */
-import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_CONFIG } from '../data/supabaseConfig.js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://jciabdkvifmkkzinwxlz.supabase.co';
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_TaICcDbyP_xJDhYSXzbdLg_GecxKtRU';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export function isSupabaseConfigured() {
+  const url = SUPABASE_CONFIG.url?.trim();
+  const key = SUPABASE_CONFIG.anonKey?.trim();
+  return Boolean(
+    url &&
+    key &&
+    !url.includes('your-project-id') &&
+    url.startsWith('https://')
+  );
+}
 
 /**
  * Fetch top N scores from leaderboard
  * @param {number} limit - how many entries to return (default 10)
  */
 export async function fetchLeaderboard(limit = 10) {
-  const { data, error } = await supabase
-    .from('snake_leaderboard')
-    .select('id, player_name, score, created_at')
-    .order('score', { ascending: false })
-    .limit(limit);
-  if (error) throw error;
-  return data || [];
+  if (!isSupabaseConfigured()) {
+    return [];
+  }
+
+  const url = `${SUPABASE_CONFIG.url.replace(/\/+$/, '')}/rest/v1/snake_leaderboard?select=id,player_name,score,created_at&order=score.desc&limit=${limit}`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        apikey: SUPABASE_CONFIG.anonKey,
+        Authorization: `Bearer ${SUPABASE_CONFIG.anonKey}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      console.warn('Leaderboard fetch status:', res.status);
+      return [];
+    }
+
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error('Leaderboard fetch error:', err);
+    return [];
+  }
 }
 
 /**
@@ -28,11 +55,32 @@ export async function fetchLeaderboard(limit = 10) {
  * @param {number} score
  */
 export async function postScore(playerName, score) {
+  if (!isSupabaseConfigured()) return;
   const name = (playerName || 'Anonymous').trim().slice(0, 24);
   if (!name || score <= 0) return;
-  const { error } = await supabase
-    .from('snake_leaderboard')
-    .insert([{ player_name: name, score }]);
-  if (error) throw error;
-}
 
+  const url = `${SUPABASE_CONFIG.url.replace(/\/+$/, '')}/rest/v1/snake_leaderboard`;
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_CONFIG.anonKey,
+        Authorization: `Bearer ${SUPABASE_CONFIG.anonKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        player_name: name,
+        score: score,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.warn('Leaderboard post error:', err);
+    }
+  } catch (err) {
+    console.error('Leaderboard post error:', err);
+  }
+}
