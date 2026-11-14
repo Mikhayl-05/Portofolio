@@ -105,6 +105,31 @@ export default function App() {
   const konamiSeqRef = useRef([]);
   const avatarClicksRef = useRef([]);
 
+  // Dynamic canonical & OG URL resolution for client-side SPA
+  useEffect(() => {
+    const currentUrl = window.location.origin + window.location.pathname;
+    const ogImageUrl = `${window.location.origin}/og-image.jpg`;
+
+    const canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (canonicalEl && !canonicalEl.getAttribute('href')?.startsWith('http')) {
+      canonicalEl.setAttribute('href', currentUrl);
+    }
+
+    const ogUrlEl = document.querySelector('meta[property="og:url"]');
+    if (ogUrlEl && !ogUrlEl.getAttribute('content')?.startsWith('http')) {
+      ogUrlEl.setAttribute('content', currentUrl);
+    }
+
+    ['meta[property="og:image"]', 'meta[property="og:image:secure_url"]', 'meta[name="twitter:image"]'].forEach(
+      (selector) => {
+        const el = document.querySelector(selector);
+        if (el && !el.getAttribute('content')?.startsWith('http')) {
+          el.setAttribute('content', ogImageUrl);
+        }
+      }
+    );
+  }, []);
+
   // Audio track playing tick for audiophile achievement
   useEffect(() => {
     if (!playing) return;
