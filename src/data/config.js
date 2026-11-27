@@ -146,6 +146,103 @@ const _PAMERAN_RAW = {
     ],
     quote       : 'Kalah gak bikin kamu menurun,tapi ngasih kamu ide untuk cari cara lain buat menang sekalipun itu curang..',
   },
+
+  // ── PIXORTIFY ─────────────────────────────────
+  pixortify: {
+    title       : 'Pixortify: Pixel Playground 🎨',
+    description : 'Eksperimen menyusun ulang pixel untuk membentuk gambar baru.',
+    thumb       : '/img/pameran/pixortify.svg',
+    meta        : '2026 • Mikhayl',
+    media       : { type: 'image', images: ['/img/pameran/pixortify.svg'] },
+    paragraphs  : [
+      `Pernah kepikiran nggak, gimana jadinya kalau pixel dari satu gambar disusun ulang supaya membentuk gambar yang berbeda? Dari rasa penasaran itu, gw mulai mengembangkan sebuah project bernama Pixortify. Konsepnya cukup unik: ada dua gambar, satu sebagai sumber pixel dan satu lagi sebagai target visual. Nantinya sistem bakal berusaha menyusun pixel dari gambar pertama supaya hasil akhirnya menyerupai gambar kedua.`,
+      `Yang bikin project ini menarik adalah setiap pixel dari gambar sumber harus digunakan tepat satu kali. Jadi nggak ada pixel yang dibuat, dihapus, atau diduplikasi. Gw mengembangkan beberapa mode matching, mulai dari Fast, Balanced, Insane, sampai Patch. Ada juga real-time preview, perbandingan Before & After, pengukuran kualitas gambar, dan dukungan GPU opsional supaya prosesnya bisa lebih optimal.`,
+      `Buat gw, Pixortify adalah salah satu eksperimen paling menarik karena menggabungkan matematika, pemrosesan gambar, dan kreativitas dalam satu aplikasi. Awalnya mungkin cuma ide iseng, tapi ternyata berkembang menjadi sistem rekonstruksi gambar yang cukup kompleks. Kalau penasaran, kalian bisa lihat source code dan dokumentasinya di <a href="https://github.com/Mikhayl-05/Pixortify" target="_blank" rel="noopener noreferrer">GitHub Pixortify</a>.`,
+    ],
+    quote       : 'Satu pixel bisa membentuk banyak cerita, tergantung bagaimana kita menyusunnya.',
+  },
+
+  // ── FRAMEFLOW ─────────────────────────────────
+  frameflow: {
+    title       : 'FrameFlow: Smooth Every Frame 🎬',
+    description : 'Aplikasi AI untuk membuat gerakan video menjadi lebih halus.',
+    thumb       : '/img/pameran/frameflow.svg',
+    meta        : '2026 • Mikhayl',
+    media       : { type: 'image', images: ['/img/pameran/frameflow.svg'] },
+    paragraphs  : [
+      `Gw pernah penasaran gimana caranya membuat video yang awalnya terlihat patah-patah menjadi jauh lebih halus. Dari situ gw mulai ngulik teknologi bernama Frame Interpolation, yaitu proses menambahkan frame baru di antara frame yang sudah ada. Akhirnya gw mengembangkan sebuah aplikasi bernama FrameFlow yang menggunakan teknologi AI untuk melakukan hal tersebut.`,
+      `FrameFlow dibangun sebagai GUI wrapper untuk Practical-RIFE. Jadi pengguna nggak perlu repot menjalankan banyak perintah lewat terminal. Tinggal masukkan video, tentukan target FPS, pilih multiplier 2x, 3x, atau 4x, lalu biarkan sistem memprosesnya. Gw juga menambahkan fitur drag and drop, progress tracker, preview, dan penggabungan audio menggunakan FFmpeg.`,
+      `Salah satu tantangan dalam mengembangkan aplikasi ini adalah menghubungkan berbagai komponen pemrosesan video dan model AI supaya semuanya berjalan dalam satu alur yang nyaman digunakan. FrameFlow membutuhkan GPU NVIDIA dengan dukungan CUDA, jadi ada beberapa hal teknis yang harus diperhatikan. Buat gw, project ini menjadi pengalaman seru dalam mengeksplorasi dunia multimedia dan kecerdasan buatan. Kalian bisa melihat perkembangannya di <a href="https://github.com/Mikhayl-05/FrameFlow" target="_blank" rel="noopener noreferrer">GitHub FrameFlow</a>.`,
+    ],
+    quote       : 'Kadang yang dibutuhkan sebuah video hanyalah beberapa frame tambahan untuk terasa lebih hidup.',
+  },
+
+  // ── HUTAN NAGA ─────────────────────────────────
+  hutanNaga: {
+    title       : 'Hutan Naga: The First Encounter ⚔️',
+    description : 'Game aksi pixel 2D tentang pendekar yang menghadapi naga neraka.',
+    thumb       : 'https://raw.githubusercontent.com/Mikhayl-05/game-pendekar/open-world/public/og-preview.jpg',
+    meta        : '2026 • Mikhayl',
+    media       : { type: 'image', images: ['https://raw.githubusercontent.com/Mikhayl-05/game-pendekar/open-world/public/og-preview.jpg'] },
+    paragraphs  : [
+      `Kali ini gw mencoba sesuatu yang sedikit berbeda dari biasanya. Bukan aplikasi desktop, bukan website, dan bukan juga eksperimen AI. Gw mulai mengembangkan sebuah game aksi pixel 2D berjudul Hutan Naga. Ceritanya berawal dari seorang pendekar yang harus menghadapi seekor naga neraka di tengah hutan kuno. Sebuah konsep petualangan fantasi yang sejak awal memang pengen gw eksplorasi.`,
+      `Dalam pengembangannya, gw mencoba menghadirkan pertarungan yang terasa hidup melalui sistem kombo serangan, efek pencahayaan, refleksi air, dan berbagai elemen visual lainnya. Gw juga memperhatikan kontrol agar game ini bisa dimainkan melalui perangkat mobile. Jadi bukan cuma mengembangkan mekanisme permainan, tetapi juga mencoba membuat pengalaman bermainnya terasa menarik.`,
+      `Buat gw, Hutan Naga merupakan awal dari perjalanan yang lebih panjang dalam dunia game development. Pertarungan melawan naga bukan akhir dari semuanya, melainkan gerbang menuju dunia fantasi yang lebih luas dan petualangan berikutnya. Kalau penasaran dengan game-nya, kalian bisa langsung mencobanya melalui <a href="https://game-pendekar.vercel.app/" target="_blank" rel="noopener noreferrer">Hutan Naga</a>, atau melihat repository pengembangannya di <a href="https://github.com/Mikhayl-05/game-pendekar" target="_blank" rel="noopener noreferrer">GitHub</a>.`,
+    ],
+    quote       : 'Satu pertarungan mungkin hanyalah awal dari sebuah petualangan yang jauh lebih besar.',
+  },
+
+  // ── GANTENGS ───────────────────────────────────
+  gantengs: {
+    title       : 'Gantengs: AI Image Upscaler 🤖',
+    description : 'Meningkatkan resolusi dan ketajaman gambar dengan bantuan AI.',
+    thumb       : 'https://raw.githubusercontent.com/Mikhayl-05/Gantengs/main/asset/Beter-Real.png',
+    meta        : '2026 • Mikhayl',
+    media       : {
+      type: 'image',
+      images: [
+        'https://raw.githubusercontent.com/Mikhayl-05/Gantengs/main/asset/Beter-Real.png',
+        'https://raw.githubusercontent.com/Mikhayl-05/Gantengs/main/asset/Beter-Anime.png'
+      ]
+    },
+    paragraphs  : [
+      `Pernah punya foto atau gambar yang resolusinya kecil banget sampai detailnya susah dilihat? Gw sempat penasaran apakah gambar seperti itu bisa diperbaiki tanpa sekadar memperbesar ukurannya. Akhirnya gw mencoba mengembangkan aplikasi AI Image Upscaler bernama Gantengs. Namanya memang agak random, wkwk, tapi fungsinya cukup serius.`,
+      `Aplikasi ini menggunakan teknologi Real-ESRGAN untuk membantu meningkatkan resolusi dan ketajaman gambar. Ada beberapa model yang bisa digunakan, seperti x4plus untuk foto dunia nyata dan x4plus-anime untuk ilustrasi atau gambar bergaya anime. Pengguna cukup memasukkan gambar, memilih model, kemudian menjalankan proses upscale. Gw juga menyediakan fitur Before & After supaya hasilnya bisa dibandingkan secara langsung.`,
+      `Yang menarik dari project ini adalah bagaimana AI mencoba memperkirakan detail visual ketika sebuah gambar memiliki resolusi rendah. Jadi prosesnya bukan sekadar memperbesar ukuran gambar, melainkan berusaha menghasilkan detail yang lebih baik. Buat gw, ini salah satu eksperimen yang mempertemukan ketertarikan terhadap komputer, AI, dan pengolahan gambar. Source code dan dokumentasinya bisa kalian temukan di <a href="https://github.com/Mikhayl-05/Gantengs" target="_blank" rel="noopener noreferrer">GitHub Gantengs</a>.`,
+    ],
+    quote       : 'Bukan sekadar memperbesar gambar, tapi memberinya kesempatan untuk terlihat lebih jelas.',
+  },
+
+  // ── ENCRYPTER ──────────────────────────────────
+  encrypter: {
+    title       : 'Mikhayl Encrypter: Digital Cipher 🔐',
+    description : 'Belajar enkripsi modern dan sandi klasik langsung di browser.',
+    thumb       : '/img/pameran/encrypter.svg',
+    meta        : '2026 • Mikhayl',
+    media       : { type: 'image', images: ['/img/pameran/encrypter.svg'] },
+    paragraphs  : [
+      `Gw selalu tertarik dengan bagaimana sebuah pesan bisa diubah menjadi teks yang sulit dipahami oleh orang lain. Dari rasa penasaran itu, gw mengembangkan sebuah aplikasi bernama Mikhayl Encrypter. Aplikasi ini dibuat untuk mengenkripsi dan mendekripsi teks secara langsung melalui browser, sekaligus menjadi tempat untuk mempelajari berbagai metode penyandian.`,
+      `Di dalamnya terdapat algoritma enkripsi modern seperti AES-256-GCM dan AES-128-GCM. Selain itu, gw juga menyediakan beberapa sandi klasik seperti Caesar Cipher, ROT13, Atbash, Vigenère, dan Rail Fence. Jadi pengguna bisa bereksperimen dengan metode penyandian sederhana sekaligus memahami perbedaan antara sandi klasik dan enkripsi modern. Prosesnya berjalan secara lokal di browser menggunakan Web Crypto API.`,
+      `Buat gw, project ini bukan cuma tentang membuat teks menjadi tidak terbaca, tetapi juga memahami bagaimana teknologi bisa membantu melindungi informasi. Gw mencoba membuat tampilannya sederhana supaya orang bisa langsung bereksperimen tanpa harus memahami terlalu banyak hal teknis terlebih dahulu. Kalian bisa melihat source code dan dokumentasinya di <a href="https://github.com/Mikhayl-05/Encrypter" target="_blank" rel="noopener noreferrer">GitHub Mikhayl Encrypter</a>.`,
+    ],
+    quote       : 'Mengubah teks menjadi rahasia itu mudah, memahami cara kerjanya jauh lebih menarik.',
+  },
+
+  // ── NOVEL READER ───────────────────────────────
+  novelReader: {
+    title       : 'Selamanya Itu Lama Banget: Digital Reader 📖',
+    description : 'Pembaca novel digital dengan progres, catatan, favorit, dan audio.',
+    thumb       : 'https://raw.githubusercontent.com/Mikhayl-05/Novel-Universal/main/asset/preview.jpg',
+    meta        : '2026 • Mikhayl',
+    media       : { type: 'image', images: ['https://raw.githubusercontent.com/Mikhayl-05/Novel-Universal/main/asset/preview.jpg'] },
+    paragraphs  : [
+      `Selain suka mengembangkan aplikasi dan bereksperimen dengan teknologi, gw juga tertarik dengan dunia cerita dan tulisan. Dari ketertarikan itu, gw mengembangkan sebuah pembaca novel digital untuk karya berjudul Selamanya Itu Lama Banget. Gw pengen pengalaman membaca nggak cuma terasa seperti membuka halaman biasa, tetapi juga punya ruang personal yang nyaman untuk menikmati cerita.`,
+      `Pembaca digital ini dilengkapi berbagai fitur seperti navigasi bab, penyimpanan progres membaca, catatan, daftar favorit, audio, dan beberapa efek visual. Gw juga mengembangkan dukungan Progressive Web App supaya pengalaman membacanya terasa lebih dekat dengan aplikasi yang bisa dipasang di perangkat. Jadi pembaca bisa kembali melanjutkan cerita tanpa harus mengingat halaman terakhir secara manual.`,
+      `Buat gw, project ini menjadi pertemuan antara dua hal yang gw suka: teknologi dan cerita. Mengembangkan pembaca novel sendiri juga membuat gw belajar bahwa aplikasi yang baik bukan cuma soal fitur yang banyak, tetapi bagaimana setiap fitur membantu orang menikmati pengalaman yang ingin diberikan. Kalian bisa melihat pengembangannya melalui <a href="https://github.com/Mikhayl-05/Novel-Universal" target="_blank" rel="noopener noreferrer">GitHub Novel Reader</a>.`,
+    ],
+    quote       : 'Cerita yang baik layak mendapatkan ruang untuk dibaca dengan nyaman.',
+  },
+
   Coming: {
     title       : 'Coming Soon✨',
     description : 'COMING SOON 🌟✨ — cerita baru lagi dalam perjalanan. Stay tuned, bakal ada yang fresh!',
